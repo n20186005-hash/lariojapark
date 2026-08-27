@@ -5,7 +5,7 @@
 - Estructura de proyecto Astro/Tailwind/TypeScript creada.
 - Versiones de dependencias fijadas sin `latest`, `*` ni rangos flotantes.
 - `packageManager`, `engines.node` y `.node-version` fijados.
-- No existe `pnpm-workspace.yaml` porque es un proyecto de un solo paquete.
+- `pnpm-workspace.yaml` declara el paquete único (`.`) y autoriza los scripts de compilación de `esbuild` y `workerd` mediante `allowBuilds` (requisito de pnpm 11; sin esto `pnpm install`/`pnpm run` fallan con `ERR_PNPM_IGNORED_BUILDS`).
 - El dominio se resuelve sólo desde `SITE_URL` en `astro.config.mjs`.
 - Sitemap condicional: sólo se activa si Astro recibe un `site` real.
 - No hay `example.com`, `localhost` ni `chrome-extension://` en el código fuente.
@@ -13,11 +13,11 @@
 - Privacidad, términos y cookies son rutas independientes, no ventanas modales.
 - Logo y favicon SVG/PNG 16, 32 y 180 px están incluidos localmente.
 
-## Limitación del entorno de generación
+## Lockfile y verificación
 
-El contenedor disponible para esta entrega no tiene salida de red hacia el registro npm y no trae pnpm/Astro preinstalados. Por ese motivo no es posible ejecutar de forma verificable `corepack prepare`, `pnpm install`, `astro check` ni `astro build` aquí, ni generar un `pnpm-lock.yaml` auténtico sin inventar resoluciones o integridades.
+El `pnpm-lock.yaml` se generó contra el registro npm con pnpm 11.24.0 y se incluye en el repositorio. `pnpm install` quedó verificado localmente con Node 24 y pnpm 11.24.0 (los scripts de compilación de `esbuild` y `workerd` se autorizaron vía `allowBuilds` en `pnpm-workspace.yaml`).
 
-No se incluye un lockfile falso. En un entorno con acceso al registro npm, el paso correcto es:
+Para reproducir:
 
 ```bash
 corepack enable
