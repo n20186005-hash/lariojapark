@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const pageUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
-const heroImage = 'https://www.elindependiente.com.ar/elindependiente/1.0/img/344478801.jpg';
+const heroImage = '/images/parque-entrada.jpg';
 
 const faqs = [
   {
@@ -150,15 +150,15 @@ const schema = [attractionSchema, faqSchema];
   <section class="photo-band" aria-label="Imágenes del parque">
     <div class="shell photo-grid">
       <figure>
-        <img src="https://www.elindependiente.com.ar/elindependiente/1.0/img/344478801.jpg" alt="Entrada del Parque de la Ciudad de La Rioja con jardines y palmeras" width="900" height="900" loading="lazy" />
+        <img src="/images/parque-entrada.jpg" alt="Entrada del Parque de la Ciudad de La Rioja con jardines y palmeras" width="900" height="900" loading="lazy" />
         <figcaption>Acceso y paisajismo del parque · imagen de archivo periodístico.</figcaption>
       </figure>
       <figure>
-        <img src="https://nuevarioja.com.ar/galeria/fotos/2019/12/17/l_3480_1576600817.jpg" alt="Pileta al aire libre del Parque de la Ciudad rodeada por palmeras" width="900" height="600" loading="lazy" />
+        <img src="/images/parque-piletas.jpg" alt="Pileta al aire libre del Parque de la Ciudad rodeada por palmeras" width="900" height="600" loading="lazy" />
         <figcaption>Natatorio estacional · las condiciones de uso cambian según temporada.</figcaption>
       </figure>
       <figure>
-        <img src="https://www.airial.travel/_next/image?q=70&amp;url=https%3A%2F%2Fmedia-cdn.tripadvisor.com%2Fmedia%2Fphoto-w%2F31%2F34%2Fa8%2F7c%2Fcaption.jpg&amp;w=3840" alt="Otro acceso vehicular y peatonal al Parque de la Ciudad de La Rioja" width="900" height="600" loading="lazy" />
+        <img src="/images/superdomo.jpg" alt="Otro acceso vehicular y peatonal al Parque de la Ciudad de La Rioja" width="900" height="600" loading="lazy" />
         <figcaption>Uno de los accesos al predio · fotografía de visitantes redistribuida por su fuente.</figcaption>
       </figure>
     </div>
