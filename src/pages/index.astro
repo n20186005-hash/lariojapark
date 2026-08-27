@@ -1,0 +1,334 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const pageUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
+const heroImage = 'https://www.elindependiente.com.ar/elindependiente/1.0/img/344478801.jpg';
+
+const faqs = [
+  {
+    q: '¿La entrada al Parque de la Ciudad es gratuita?',
+    a: 'La ficha municipal presenta al parque como un espacio público de esparcimiento y no publica una tarifa de acceso general. Algunas instalaciones o propuestas estacionales —como las piletas, espectáculos o actividades especiales— pueden tener condiciones y precios propios. Conviene verificar la información oficial antes de ir.'
+  },
+  {
+    q: '¿El parque está abierto las 24 horas?',
+    a: 'Los listados públicos de mapas suelen mostrar acceso durante todo el día, pero los servicios internos, el natatorio, los eventos y algunos sectores manejan horarios propios. Para una visita planificada, tomá como referencia el horario de la actividad que quieras realizar y confirmalo por canales oficiales.'
+  },
+  {
+    q: '¿Hay baños y estacionamiento?',
+    a: 'La información turística oficial confirma baños en el sector del natatorio y existen áreas de estacionamiento asociadas al parque y al entorno del Superdomo. En fechas de espectáculos o eventos masivos la disponibilidad puede cambiar, por lo que es recomendable llegar con anticipación.'
+  },
+  {
+    q: '¿Cuál es el mejor momento del día para visitarlo?',
+    a: 'Por el clima seco y soleado de La Rioja, la mañana y el final de la tarde suelen ser los momentos más agradables. El atardecer tiene un atractivo especial: la promoción turística provincial destaca el mirador del parque para contemplar la puesta del sol detrás de las sierras.'
+  },
+  {
+    q: '¿Cuánto tiempo conviene quedarse?',
+    a: 'Para caminar, descansar y recorrer los sectores principales, calculá entre una hora y media y tres horas. Si vas a usar las piletas en temporada, asistir a un evento o combinar la visita con el Superdomo, la estadía puede ocupar buena parte de la tarde.'
+  },
+  {
+    q: '¿Se puede llegar en transporte público?',
+    a: 'Sí. El área del Superdomo y el Parque de la Ciudad forma parte de recorridos urbanos y también aparece en el City Tour panorámico. Las extensiones y frecuencias pueden cambiar según temporada y eventos; consultá Rioja Bus o la información turística local el mismo día del viaje.'
+  },
+  {
+    q: '¿Qué debo llevar en verano?',
+    a: 'Agua, protector solar, sombrero o gorra, calzado cómodo y ropa liviana. Si pensás usar las piletas, revisá las condiciones de ingreso vigentes: la ficha provincial exige traje de baño y prohíbe el consumo de bebidas alcohólicas en el sector.'
+  },
+  {
+    q: '¿Es un sitio oficial del parque?',
+    a: 'No. Esta es una guía independiente, sin fines de lucro y sin relación institucional con el parque, la Municipalidad de La Rioja ni el Gobierno provincial. La información se contrasta con fuentes públicas y se señala cuando un dato puede variar.'
+  }
+];
+
+const attractionSchema = {
+  '@context': 'https://schema.org',
+  '@type': ['TouristAttraction', 'LocalBusiness'],
+  name: 'Parque de la Ciudad',
+  alternateName: 'Parque de la Ciudad de La Rioja',
+  description: 'Parque urbano de más de 50 hectáreas en La Rioja Capital, con áreas verdes, juegos, quinchos, gimnasio al aire libre, piletas estacionales y el Superdomo.',
+  ...(pageUrl ? { url: pageUrl } : {}),
+  image: [heroImage],
+  telephone: '+54 380 445-3664',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Av. Circunvalación y Av. Las Palmeras',
+    addressLocality: 'La Rioja',
+    addressRegion: 'La Rioja',
+    postalCode: 'F5300',
+    addressCountry: 'AR'
+  },
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: -29.44013,
+    longitude: -66.89689
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: 4.7,
+    reviewCount: 14508,
+    bestRating: 5,
+    worstRating: 1
+  },
+  openingHoursSpecification: [
+    {
+      '@type': 'OpeningHoursSpecification',
+      dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'],
+      opens: '00:00',
+      closes: '23:59'
+    }
+  ],
+  isAccessibleForFree: true,
+  publicAccess: true,
+  priceRange: 'Acceso general sin tarifa publicada; actividades estacionales pueden tener cargo'
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.q,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: item.a
+    }
+  }))
+};
+
+const schema = [attractionSchema, faqSchema];
+---
+<BaseLayout
+  title="Parque de la Ciudad, La Rioja — guía de visita independiente"
+  description="Guía independiente del Parque de la Ciudad de La Rioja: qué ver, historia y contexto, acceso, piletas, estacionamiento, transporte, servicios, horarios orientativos y preguntas frecuentes."
+  image={heroImage}
+  schema={schema}
+>
+  <section class="hero">
+    <div class="shell hero-grid">
+      <div class="hero-copy">
+        <p class="hero-kicker">La Rioja Capital · Argentina</p>
+        <h1 class="display">Parque<br />de la Ciudad</h1>
+        <p class="hero-lede">Más de 50 hectáreas de verde en el borde sur de la capital riojana: un parque para caminar, tomar mate, encontrarse en familia y mirar cómo el sol cae detrás de las sierras.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#visita">Planificar la visita</a>
+          <a class="button secondary" href="#llegar">Cómo llegar</a>
+        </div>
+      </div>
+      <div class="hero-art" aria-label="Fotografía del acceso al Parque de la Ciudad">
+        <div class="hero-arch">
+          <img src={heroImage} alt="Acceso principal del Parque de la Ciudad de La Rioja, con su pórtico, jardines y palmeras" width="900" height="900" fetchpriority="high" />
+        </div>
+        <div class="hero-stamp"><span>parque urbano</span><strong>+50 ha</strong><span>de espacio verde</span></div>
+        <div class="hero-photo-note">Fotografía periodística del acceso. Derechos de imagen: su autor o titular original.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="fact-strip" aria-label="Datos rápidos">
+    <dl class="shell fact-grid">
+      <div class="fact"><dt>Tipo</dt><dd>Parque urbano y recreativo</dd></div>
+      <div class="fact"><dt>Ubicación</dt><dd>Zona sur de La Rioja Capital</dd></div>
+      <div class="fact"><dt>Valoración</dt><dd>4,7/5 · 14.508 reseñas*</dd></div>
+      <div class="fact"><dt>Tiempo sugerido</dt><dd>1,5–3 h · más con actividades</dd></div>
+    </dl>
+  </section>
+
+  <section id="conocer" class="section">
+    <div class="shell intro-grid">
+      <div class="intro-aside">
+        <p class="eyebrow">Conocer el lugar</p>
+        <h2 class="heading">Un pulmón verde con escala de ciudad.</h2>
+      </div>
+      <div class="intro-body">
+        <p>La Municipalidad de La Rioja describe al Parque de la Ciudad como un espacio de esparcimiento de más de 50 hectáreas, lindero a los predios del golf y del club hípico. Su programa combina áreas verdes con kioscos, quinchos, juegos infantiles, gimnasio al aire libre, piletas de natación y servicios públicos. En el mismo conjunto se encuentra el Superdomo, una pieza clave para espectáculos y actividades deportivas.</p>
+        <p>La Secretaría de Turismo provincial lo presenta además como uno de los parques emblemáticos de la capital y destaca un rasgo muy riojano: el mirador desde el que se observa el atardecer detrás de las sierras. Esa relación entre sombra, horizonte, monte y montaña es el hilo conductor de esta guía.</p>
+        <blockquote class="big-quote">No es un parque-museo: es un paisaje cívico vivo, usado para el paseo cotidiano, el deporte, los encuentros y los grandes eventos.</blockquote>
+        <p>La información pública consultada no permite fijar con rigor una única fecha de inauguración del parque. Por eso evitamos inventarla. Su lectura histórica se entiende mejor dentro de la expansión urbana contemporánea de La Rioja y de la consolidación del Superdomo en la década de 2010, que reforzó al sector como polo recreativo y de eventos.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="photo-band" aria-label="Imágenes del parque">
+    <div class="shell photo-grid">
+      <figure>
+        <img src="https://www.elindependiente.com.ar/elindependiente/1.0/img/344478801.jpg" alt="Entrada del Parque de la Ciudad de La Rioja con jardines y palmeras" width="900" height="900" loading="lazy" />
+        <figcaption>Acceso y paisajismo del parque · imagen de archivo periodístico.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://nuevarioja.com.ar/galeria/fotos/2019/12/17/l_3480_1576600817.jpg" alt="Pileta al aire libre del Parque de la Ciudad rodeada por palmeras" width="900" height="600" loading="lazy" />
+        <figcaption>Natatorio estacional · las condiciones de uso cambian según temporada.</figcaption>
+      </figure>
+      <figure>
+        <img src="https://www.airial.travel/_next/image?q=70&amp;url=https%3A%2F%2Fmedia-cdn.tripadvisor.com%2Fmedia%2Fphoto-w%2F31%2F34%2Fa8%2F7c%2Fcaption.jpg&amp;w=3840" alt="Otro acceso vehicular y peatonal al Parque de la Ciudad de La Rioja" width="900" height="600" loading="lazy" />
+        <figcaption>Uno de los accesos al predio · fotografía de visitantes redistribuida por su fuente.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="visita" class="section info-rail">
+    <div class="shell info-grid">
+      <div>
+        <p class="eyebrow">Planificá con criterio</p>
+        <h2 class="heading">Lo importante antes de salir.</h2>
+        <p style="color:#ced8d1">El parque y sus instalaciones no comparten necesariamente el mismo horario. Separar el acceso al espacio verde de las actividades estacionales evita confusiones.</p>
+      </div>
+      <div>
+        <dl class="info-list">
+          <div class="info-row"><dt>Acceso general</dt><dd>No encontramos una tarifa general publicada por la Municipalidad para entrar al parque. Mapas públicos suelen mostrar acceso todo el día; servicios y sectores internos tienen horarios propios.</dd></div>
+          <div class="info-row"><dt>Piletas</dt><dd>La ficha turística provincial indica funcionamiento estacional, habitualmente de diciembre a marzo. La publicación vigente consultada informa martes a domingo, de 14:00 a 21:00, con entrada general de ARS 2.000. Verificá tarifa y apertura antes de viajar.</dd></div>
+          <div class="info-row"><dt>Reglas del natatorio</dt><dd>Traje de baño obligatorio. Se informa que pueden ingresar conservadora, reposera, mate y sombrilla; no se permiten bebidas alcohólicas. Las normas internas pueden actualizarse.</dd></div>
+          <div class="info-row"><dt>Estacionamiento</dt><dd>El predio y el entorno del Superdomo cuentan con áreas de estacionamiento. En espectáculos o fechas de gran concurrencia puede haber cortes, accesos especiales o menor disponibilidad.</dd></div>
+          <div class="info-row"><dt>WC / baños</dt><dd>Los baños están confirmados en el sector del natatorio. Para sanitarios accesibles o disponibilidad fuera de temporada, conviene consultar al personal del predio.</dd></div>
+          <div class="info-row"><dt>Contacto</dt><dd>Teléfono consignado en la ficha de Google Maps provista para esta guía: +54 380 445-3664. Para información turística general, priorizá también los canales oficiales de La Rioja.</dd></div>
+        </dl>
+        <div class="notice"><strong>Dato cambiante:</strong> precios, frecuencias de transporte, horarios de piletas y condiciones de eventos son información operativa. Esta guía los contextualiza, pero no reemplaza la verificación oficial del día de la visita.</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule" id="costos">
+    <div class="shell">
+      <p class="eyebrow">Costos, estacionamiento y comida</p>
+      <h2 class="heading" style="max-width:52rem">Tres datos que conviene separar antes de ir.</h2>
+      <div class="place-grid">
+        <article class="place"><h3>Entrada / costos</h3><p>La ficha municipal del parque no publica una tarifa general de ingreso. El natatorio sí tiene condiciones propias: la ficha provincial consultada publica ARS 2.000 como entrada general de la temporada vigente. Eventos y actividades pueden manejar valores diferentes.</p></article>
+        <article class="place"><h3>Estacionamiento</h3><p>Hay playas y áreas de estacionamiento vinculadas al predio y al entorno del Superdomo. No damos una cifra fija de capacidad porque cambia según sectores habilitados y operativos de eventos. En fechas masivas, llegá temprano y seguí la señalización temporal.</p></article>
+        <article class="place"><h3>Comida cercana</h3><p>Dentro o en el entorno suelen existir kioscos, heladería, cantina estacional y oferta temporal de comida. Si buscás algo más completo, filtrá por tipo de cocina o servicio en La Rioja Capital, sin asumir que un comercio concreto estará abierto.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="shell">
+      <p class="eyebrow">Servicios y necesidades reales</p>
+      <h2 class="heading" style="max-width:48rem">Qué esperar dentro y alrededor.</h2>
+      <div class="topic-grid">
+        <article class="topic"><span class="num">01 · COMER Y BEBER</span><h3>Opciones simples, sin depender de una marca</h3><p>La información municipal menciona kioscos, heladería y oferta ligada a los parques. En jornadas especiales pueden sumarse puestos temporales. Para una comida completa, buscá por categoría —regional, cafetería, comida rápida o familiar— en la trama urbana y comprobá horarios por tu cuenta.</p></article>
+        <article class="topic"><span class="num">02 · FAMILIAS</span><h3>Juegos, sombra y espacios de pausa</h3><p>Hay juegos infantiles, quinchos, zonas verdes y gimnasio al aire libre. Para menores, llevá agua y protección solar; en verano evitá las horas de mayor carga térmica.</p></article>
+        <article class="topic"><span class="num">03 · ABASTECIMIENTO</span><h3>Supermercado, combustible y carga</h3><p>La Rioja Capital cuenta con supermercados, comercios de cercanía y estaciones de servicio. La disponibilidad pública de carga para vehículos eléctricos es más variable: confirmá un punto operativo antes de depender de él.</p></article>
+        <article class="topic"><span class="num">04 · DORMIR CERCA</span><h3>Alojamiento por zona, no por promoción</h3><p>Para minimizar traslados podés buscar hoteles, apart-hoteles u hospedajes en el sector sur o en el centro de La Rioja. Esta guía no jerarquiza establecimientos: compará ubicación, accesibilidad, estacionamiento y políticas de cancelación en fuentes actualizadas.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="llegar" class="section transport">
+    <div class="shell transport-grid">
+      <div>
+        <p class="eyebrow">Cómo llegar</p>
+        <h2 class="heading">Del avión o del centro al parque.</h2>
+        <p class="subheading">Dirección de referencia: Av. Circunvalación y Av. Las Palmeras, La Rioja Capital.</p>
+      </div>
+      <div>
+        <div class="route"><div class="route-icon">✈</div><div><h3>Desde el aeropuerto</h3><p>El Aeropuerto Capitán Vicente Almandos Almonacid se ubica a unos 6 km al nordeste de la ciudad, según la Municipalidad. La opción más directa al parque es taxi o remis; el tiempo depende del tránsito y del punto de salida del aeropuerto. Si combinás con transporte urbano, verificá primero la conexión vigente hacia el corredor sur.</p></div></div>
+        <div class="route"><div class="route-icon">B</div><div><h3>En colectivo urbano</h3><p>El entorno del Superdomo aparece servido por líneas del sistema Rioja Bus. En verano se han implementado extensiones especiales hacia el parque, pero no deben asumirse como permanentes. Revisá recorridos, paradas y frecuencia el día de la visita.</p></div></div>
+        <div class="route"><div class="route-icon">T</div><div><h3>Taxi o remis</h3><p>Pedí como destino “Parque de la Ciudad / Superdomo, Av. Circunvalación y Las Palmeras”. Para el regreso después de un evento, coordiná la recogida con anticipación: la demanda puede concentrarse al mismo tiempo.</p></div></div>
+        <div class="route"><div class="route-icon">🚲</div><div><h3>Bicicleta o movilidad personal</h3><p>Es una alternativa razonable desde sectores cercanos, siempre que el clima lo permita. Usá iluminación al atardecer, circulá por infraestructura habilitada y evitá las horas de calor extremo.</p></div></div>
+        <div class="route"><div class="route-icon">◎</div><div><h3>Bus turístico</h3><p>El City Tour panorámico provincial incluye al Parque de la Ciudad en su recorrido publicado. Días, tarifa y circuito pueden cambiar; consultá la ficha oficial antes de usarlo como transporte de ida o regreso.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="mapa-titulo">
+    <div class="shell">
+      <p class="eyebrow">Ubicación</p>
+      <h2 id="mapa-titulo" class="heading">Mapa del Parque de la Ciudad</h2>
+      <p class="subheading">El mapa se sirve directamente desde Google y puede establecer sus propias cookies o recopilar datos técnicos.</p>
+      <div class="map-wrap" style="margin-top:1.5rem">
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d792165.2548512918!2d-67.52974502459989!3d-29.2971231145278!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9427dbfeb0ac46a9%3A0x910c95ce826d7212!2sParque%20de%20La%20Ciudad!5e1!3m2!1ses!2sar!4v1787794626373!5m2!1ses!2sar" width="600" height="450" style="border:0;" allowfullscreen loading="lazy" referrerpolicy="strict-origin-when-cross-origin" title="Mapa de Google del Parque de la Ciudad de La Rioja"></iframe>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule">
+    <div class="shell intro-grid">
+      <div>
+        <p class="eyebrow">Clima y ritmo</p>
+        <h2 class="heading">Mejor momento y duración.</h2>
+      </div>
+      <div>
+        <h3>Primera hora y atardecer</h3>
+        <p>La Rioja tiene un clima seco, con sol intenso durante buena parte del año. Para caminar o hacer actividad física, priorizá la mañana o el final de la tarde. La promoción turística provincial recomienda especialmente el atardecer desde el mirador.</p>
+        <h3>¿Cuánto quedarse?</h3>
+        <p><strong>1,5–3 horas</strong> alcanza para un paseo tranquilo, juegos, descanso y fotografías. Sumá tiempo si vas al natatorio, a un espectáculo o a una actividad deportiva.</p>
+        <h3>Verano</h3>
+        <p>Llevá más agua de la que creés necesaria, protector solar, gorra y ropa transpirable. Buscá sombra con frecuencia y evitá la actividad intensa en las horas centrales. Las piletas son una propuesta estacional, no un servicio anual.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:#fff6e8">
+    <div class="shell intro-grid">
+      <div>
+        <p class="eyebrow">Historia y contexto</p>
+        <h2 class="heading">Del oasis urbano a la ciudad contemporánea.</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item"><h3>1591 · nace la ciudad</h3><p>La actual La Rioja fue fundada como Ciudad de Todos los Santos de la Nueva Rioja por Juan Ramírez de Velasco. Ese origen colonial forma parte del patrimonio histórico de una capital situada al pie de la sierra de Velasco.</p></div>
+        <div class="timeline-item"><h3>Una capital entre sierra y llanura</h3><p>El paisaje urbano riojano está condicionado por el ambiente árido y por la presencia de las montañas al oeste. En ese marco, los grandes espacios verdes cumplen una función ambiental y social especialmente visible.</p></div>
+        <div class="timeline-item"><h3>El parque como espacio cívico</h3><p>El Parque de la Ciudad concentra recreación cotidiana y actos de gran escala. Su combinación de deporte, juegos, quinchos, piscina, servicios públicos y eventos explica por qué no puede entenderse sólo como “jardín”: funciona como infraestructura social urbana.</p></div>
+        <div class="timeline-item"><h3>Superdomo y nueva centralidad</h3><p>La consolidación del Superdomo durante la década de 2010 reforzó el papel del sector como escenario deportivo y cultural. La información oficial actual lo integra plenamente a la descripción del parque.</p></div>
+        <div class="timeline-item"><h3>Sobre historias y leyendas</h3><p>No encontramos en las fuentes institucionales consultadas una leyenda tradicional específica y bien documentada asociada al Parque de la Ciudad. Para un sitio de divulgación responsable, es preferible decirlo que convertir una anécdota sin fuente en “historia local”.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="alrededores" class="section">
+    <div class="shell">
+      <p class="eyebrow">Alrededores</p>
+      <h2 class="heading">Ideas para ampliar el recorrido.</h2>
+      <p class="subheading" style="max-width:54rem">No son recomendaciones comerciales: son espacios públicos o culturales que ayudan a entender La Rioja Capital desde distintos ángulos.</p>
+      <div class="place-grid">
+        <article class="place"><h3>Superdomo</h3><p>Está integrado al conjunto del parque. Su agenda deportiva y cultural puede modificar tránsito, estacionamiento y accesos.</p></article>
+        <article class="place"><h3>Parque de las Juventudes</h3><p>Otro gran espacio público de la capital, señalado por Turismo provincial por sus aguas danzantes y su carácter de paseo urbano.</p></article>
+        <article class="place"><h3>Centro histórico</h3><p>La Plaza 25 de Mayo y el patrimonio religioso y cívico permiten conectar el paseo contemporáneo con los orígenes coloniales de la ciudad.</p></article>
+        <article class="place"><h3>Reserva Municipal Juan Caro</h3><p>Para quienes buscan naturaleza y trekking, la reserva municipal ofrece circuitos de montaña con reglas de acceso y seguridad propias.</p></article>
+        <article class="place"><h3>Miradores de la ciudad</h3><p>El parque ya ofrece una lectura de las sierras al atardecer; otros miradores urbanos y suburbanos amplían esa relación con el relieve.</p></article>
+        <article class="place"><h3>Patrimonio riojano</h3><p>Museos, templos y espacios culturales del área central suman contexto sobre identidad, religiosidad, arte y memoria local.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section rule" aria-labelledby="accesibilidad-titulo">
+    <div class="shell intro-grid">
+      <div>
+        <p class="eyebrow">Accesibilidad y seguridad</p>
+        <h2 id="accesibilidad-titulo" class="heading">Preguntar antes es parte de planificar bien.</h2>
+      </div>
+      <div>
+        <p>El parque dispone de amplios sectores urbanizados y equipamiento recreativo, pero no encontramos una auditoría pública reciente que permita afirmar que todos los recorridos, sanitarios y edificios cumplen el mismo nivel de accesibilidad. Si necesitás itinerario sin escalones, baño accesible, estacionamiento reservado o asistencia, consultá al predio antes de ir.</p>
+        <p>En días de tormenta, calor extremo o eventos masivos, seguí las indicaciones de organismos locales. No ingreses a sectores cerrados y mantené especial supervisión de niñas y niños cerca de piletas y áreas de circulación vehicular.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="section">
+    <div class="shell">
+      <p class="eyebrow">Preguntas frecuentes</p>
+      <h2 class="heading">Respuestas prácticas, sin venderte nada.</h2>
+      <div class="faq-list">
+        {faqs.map((item) => (
+          <details>
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section id="fuentes" class="section rule">
+    <div class="shell intro-grid">
+      <div>
+        <p class="eyebrow">Criterio editorial</p>
+        <h2 class="heading">Qué verificamos y cómo lo contamos.</h2>
+      </div>
+      <div>
+        <p>Para los datos estables priorizamos fuentes públicas: Municipalidad de La Rioja, Secretaría de Turismo de la Provincia de La Rioja y portales nacionales de Argentina. Para información operativa —horarios, tarifas, transporte— señalamos expresamente que puede cambiar.</p>
+        <p>La valoración de 4,7/5 y el volumen de 14.508 reseñas proceden de la ficha de Google Maps aportada para elaborar esta guía. No presentamos esa cifra como una medición oficial ni la usamos para ordenar comercios.</p>
+        <div class="source-box">
+          <h3>Fuentes institucionales de referencia</h3>
+          <p>Consultamos la <a href="https://www.municipiolarioja.gob.ar/nuestraCiudad/quevisitar" rel="external">ficha municipal de atractivos</a>, la <a href="https://www.municipiolarioja.gob.ar/nuestraCiudad/turismo" rel="external">Dirección General de Turismo de la ciudad</a>, la <a href="https://turismo.larioja.gob.ar/actividades/natatorio-parque-de-la-ciudad/" rel="external">ficha provincial de piletas</a> y la <a href="https://turismo.larioja.gob.ar/camping_natatorios/parque-de-la-ciudad/" rel="external">ficha del natatorio</a>. Para contexto histórico usamos fuentes públicas de Argentina.gob.ar. Las fotografías provienen de sus titulares o fuentes editoriales identificadas y se muestran con finalidad informativa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

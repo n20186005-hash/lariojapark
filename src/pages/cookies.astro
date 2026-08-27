@@ -1,0 +1,96 @@
+---
+import LegalLayout from '../layouts/LegalLayout.astro';
+---
+<LegalLayout
+  title="Configuración de cookies"
+  description="Elegí qué categorías opcionales puede utilizar esta guía. Las funciones esenciales permanecen activas."
+>
+  <h2 id="control">Control de preferencias</h2>
+  <p>Usamos tecnologías mínimas para que el sitio funcione y, sólo si lo autorizás, analítica para comprender el uso de la guía. Podés cambiar esta elección en cualquier momento desde esta misma página.</p>
+
+  <div class="cookie-panel" id="cookie-panel">
+    <div class="cookie-row">
+      <div><strong>Necesarias</strong><p class="muted">Imprescindibles para seguridad, entrega del sitio y almacenamiento de tu propia elección de consentimiento. No se pueden desactivar desde esta interfaz.</p></div>
+      <label class="switch"><input type="checkbox" checked disabled /> Siempre activas</label>
+    </div>
+    <div class="cookie-row">
+      <div><strong>Analítica</strong><p class="muted">Activa Google Analytics 4 para obtener estadísticas agregadas de uso. La integración utiliza el ID G-HXM22WWPKP.</p></div>
+      <label class="switch"><input id="analytics" type="checkbox" /> Google Analytics</label>
+    </div>
+    <div class="cookie-row">
+      <div><strong>Preferencias</strong><p class="muted">Permite recordar ajustes no esenciales de la interfaz. Actualmente la guía utiliza esta categoría sólo para futuras mejoras de preferencia.</p></div>
+      <label class="switch"><input id="preferences" type="checkbox" /> Preferencias del sitio</label>
+    </div>
+    <div class="cookie-row">
+      <div><strong>Marketing</strong><p class="muted">Este proyecto no utiliza cookies de publicidad personalizada ni herramientas propias de remarketing.</p></div>
+      <label class="switch"><input type="checkbox" disabled /> Desactivadas</label>
+    </div>
+  </div>
+
+  <div class="cookie-actions">
+    <button class="button primary" id="save-prefs" type="button">Guardar preferencias</button>
+    <button class="button secondary" id="reject-all" type="button">Rechazar todo lo opcional</button>
+  </div>
+  <p class="status" id="cookie-status" aria-live="polite"></p>
+
+  <h2 id="detalle">Qué significa cada categoría</h2>
+  <h3>Necesarias</h3>
+  <p>Incluyen procesos esenciales del alojamiento y el almacenamiento local de la decisión que tomás en esta página. Sin ellas, algunas funciones básicas de seguridad o persistencia podrían no estar disponibles.</p>
+
+  <h3>Analítica</h3>
+  <p>Si la activás, cargamos Google Analytics 4. Sirve para conocer, de manera agregada, qué páginas se consultan y cómo se utiliza el sitio. La guía no carga Analytics antes de tu consentimiento.</p>
+
+  <h3>Preferencias</h3>
+  <p>Esta categoría puede recordar opciones de presentación elegidas por vos. No es necesaria para leer el contenido.</p>
+
+  <h3>Marketing</h3>
+  <p>No utilizamos publicidad personalizada, píxeles de remarketing ni perfiles de intereses propios. Por eso esta categoría permanece desactivada.</p>
+
+  <h2 id="mapa">Sobre Google Maps</h2>
+  <p>El mapa incrustado es contenido de un tercero. Al abrir la página principal, el iframe puede establecer una conexión con Google independientemente de la preferencia de Analytics de esta guía. Si querés evitar esa conexión, podés usar extensiones o configuraciones de privacidad del navegador que bloqueen contenido de terceros.</p>
+
+  <h2 id="cambiar">Cambiar o retirar el consentimiento</h2>
+  <p>Volvé a esta página cuando quieras, modificá las casillas y guardá. También podés borrar el almacenamiento del sitio desde la configuración de tu navegador. Si rechazás todo lo opcional, Analytics no se cargará en futuras vistas mientras se conserve esa elección.</p>
+
+  <script is:inline>
+    (() => {
+      const key = 'pdlc-cookie-preferences';
+      const analytics = document.getElementById('analytics');
+      const preferences = document.getElementById('preferences');
+      const status = document.getElementById('cookie-status');
+      const save = document.getElementById('save-prefs');
+      const reject = document.getElementById('reject-all');
+
+      const read = () => {
+        try { return JSON.parse(localStorage.getItem(key) || '{}'); }
+        catch (_) { return {}; }
+      };
+      const write = (value) => {
+        try {
+          localStorage.setItem(key, JSON.stringify({ ...value, updated: new Date().toISOString() }));
+          return true;
+        } catch (_) { return false; }
+      };
+
+      const current = read();
+      if (analytics) analytics.checked = Boolean(current.analytics);
+      if (preferences) preferences.checked = Boolean(current.preferences);
+
+      save?.addEventListener('click', () => {
+        const ok = write({
+          analytics: Boolean(analytics?.checked),
+          preferences: Boolean(preferences?.checked),
+          marketing: false
+        });
+        if (status) status.textContent = ok ? 'Preferencias guardadas. Se aplicarán desde la próxima carga de página.' : 'El navegador bloqueó el almacenamiento local; las opciones no pudieron guardarse.';
+      });
+
+      reject?.addEventListener('click', () => {
+        if (analytics) analytics.checked = false;
+        if (preferences) preferences.checked = false;
+        const ok = write({ analytics: false, preferences: false, marketing: false });
+        if (status) status.textContent = ok ? 'Se rechazaron todas las categorías opcionales.' : 'El navegador bloqueó el almacenamiento local; las opciones no pudieron guardarse.';
+      });
+    })();
+  </script>
+</LegalLayout>

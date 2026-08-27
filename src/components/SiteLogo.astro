@@ -1,0 +1,14 @@
+---
+const { compact = false } = Astro.props;
+---
+<a class="brand" href="/" aria-label="Guía Parque de la Ciudad — inicio">
+  <svg viewBox="0 0 64 64" aria-hidden="true" role="img">
+    <circle cx="45" cy="16" r="8" fill="#e6a744"/>
+    <path d="M8 39C17 26 25 21 32 21c9 0 17 8 24 21H8Z" fill="#6f5b78"/>
+    <path d="M8 44c10-8 18-11 25-11 8 0 15 4 23 12v11H8V44Z" fill="#274c3a"/>
+    <path d="M29 56c2-9 5-15 9-20 4 4 7 10 9 20H29Z" fill="#f4ead9"/>
+    <path d="M10 20h10v22H10z" fill="#b95737"/>
+    <path d="M10 20c3-6 7-9 10-9s7 3 10 9H10Z" fill="#b95737"/>
+  </svg>
+  {compact ? null : <span>Parque de la Ciudad · La Rioja</span>}
+</a>

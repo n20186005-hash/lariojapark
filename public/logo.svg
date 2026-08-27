@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 96" role="img" aria-labelledby="title desc">
+  <title id="title">Guía Parque de la Ciudad · La Rioja</title>
+  <desc id="desc">Sol, sierra, vegetación y sendero inspirados en el paisaje del parque.</desc>
+  <g transform="translate(8 8)">
+    <circle cx="59" cy="18" r="11" fill="#e6a744"/>
+    <path d="M4 52C18 31 31 23 44 23c14 0 27 12 40 33H4Z" fill="#6f5b78"/>
+    <path d="M4 57c16-11 29-15 41-15 14 0 26 6 39 17v17H4V57Z" fill="#274c3a"/>
+    <path d="M39 76c3-14 8-23 14-31 6 7 11 17 15 31H39Z" fill="#f4ead9"/>
+    <path d="M7 24h14v31H7z" fill="#b95737"/>
+    <path d="M7 24c4-8 9-12 14-12s10 4 15 12H7Z" fill="#b95737"/>
+  </g>
+  <text x="106" y="40" fill="#17382a" font-family="Georgia,serif" font-size="27" font-weight="700">Parque de la Ciudad</text>
+  <text x="107" y="66" fill="#b95737" font-family="Arial,sans-serif" font-size="13" font-weight="700" letter-spacing="2.5">GUÍA · LA RIOJA</text>
+</svg>
