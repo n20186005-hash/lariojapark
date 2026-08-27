@@ -3,17 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.11.2",
   "engines": {
-    "node": "^22.14.0",
-    "pnpm": "^10.11.2"
+    "node": ">=22.12.0 <23"
   },
   "scripts": {
     "dev": "astro dev",
     "check": "astro check",
     "build": "astro build",
     "preview": "astro preview",
-    "deploy": "pnpm build && wrangler deploy"
+    "deploy": "npm run build && wrangler deploy"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.3",
