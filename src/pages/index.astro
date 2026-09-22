@@ -1,8 +1,11 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import WeatherSection from '../components/WeatherSection.astro';
+import { SITE_NAME } from '../data/site';
 
 const pageUrl = Astro.site ? new URL('/', Astro.site).toString() : undefined;
 const heroImage = '/images/parque-entrada.jpg';
+const heroImageAbs = Astro.site ? new URL(heroImage, Astro.site).toString() : heroImage;
 
 const faqs = [
   {
@@ -41,12 +44,13 @@ const faqs = [
 
 const attractionSchema = {
   '@context': 'https://schema.org',
-  '@type': ['TouristAttraction', 'LocalBusiness'],
+  '@type': ['TouristAttraction', 'LocalBusiness', 'Park'],
+  '@id': pageUrl ? `${pageUrl}#attraction` : 'https://lariojapark.com/#attraction',
   name: 'Parque de la Ciudad',
   alternateName: 'Parque de la Ciudad de La Rioja',
   description: 'Parque urbano de más de 50 hectáreas en La Rioja Capital, con áreas verdes, juegos, quinchos, gimnasio al aire libre, piletas estacionales y el Superdomo.',
   ...(pageUrl ? { url: pageUrl } : {}),
-  image: [heroImage],
+  image: [heroImageAbs],
   telephone: '+54 380 445-3664',
   address: {
     '@type': 'PostalAddress',
@@ -61,6 +65,11 @@ const attractionSchema = {
     latitude: -29.44013,
     longitude: -66.89689
   },
+  hasMap: 'https://maps.app.goo.gl/Cd5Ax2rgCJBqPPqo9',
+  sameAs: [
+    'https://maps.app.goo.gl/Cd5Ax2rgCJBqPPqo9',
+    'https://turismo.larioja.gob.ar/'
+  ],
   aggregateRating: {
     '@type': 'AggregateRating',
     ratingValue: 4.7,
@@ -97,9 +106,10 @@ const faqSchema = {
 const schema = [attractionSchema, faqSchema];
 ---
 <BaseLayout
-  title="Parque de la Ciudad, La Rioja — guía de visita independiente"
-  description="Guía independiente del Parque de la Ciudad de La Rioja: qué ver, historia y contexto, acceso, piletas, estacionamiento, transporte, servicios, horarios orientativos y preguntas frecuentes."
+  title="Parque de la Ciudad La Rioja — horarios, cómo llegar y qué hacer"
+  description="Parque urbano de más de 50 ha en La Rioja, con entrada libre. Horarios, cómo llegar (Av. Circunvalación y Las Palmeras), piletas de verano, juegos, quinchos y el mirador del atardecer. Guía gratuita e independiente."
   image={heroImage}
+  preloadImage={heroImage}
   schema={schema}
 >
   <section class="hero">
@@ -197,15 +207,18 @@ const schema = [attractionSchema, faqSchema];
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" id="servicios">
     <div class="shell">
-      <p class="eyebrow">Servicios y necesidades reales</p>
-      <h2 class="heading" style="max-width:48rem">Qué esperar dentro y alrededor.</h2>
+      <p class="eyebrow">Servicios y facilidades en el entorno</p>
+      <h2 class="heading" style="max-width:52rem">Qué encontrar dentro y alrededor, por tipo.</h2>
+      <p class="subheading" style="max-width:54rem">Describimos categorías, no comercios: esta guía es independiente y no recomienda marcas ni establecimientos. Confirmá disponibilidad y horarios el día de la visita.</p>
       <div class="topic-grid">
-        <article class="topic"><span class="num">01 · COMER Y BEBER</span><h3>Opciones simples, sin depender de una marca</h3><p>La información municipal menciona kioscos, heladería y oferta ligada a los parques. En jornadas especiales pueden sumarse puestos temporales. Para una comida completa, buscá por categoría —regional, cafetería, comida rápida o familiar— en la trama urbana y comprobá horarios por tu cuenta.</p></article>
-        <article class="topic"><span class="num">02 · FAMILIAS</span><h3>Juegos, sombra y espacios de pausa</h3><p>Hay juegos infantiles, quinchos, zonas verdes y gimnasio al aire libre. Para menores, llevá agua y protección solar; en verano evitá las horas de mayor carga térmica.</p></article>
-        <article class="topic"><span class="num">03 · ABASTECIMIENTO</span><h3>Supermercado, combustible y carga</h3><p>La Rioja Capital cuenta con supermercados, comercios de cercanía y estaciones de servicio. La disponibilidad pública de carga para vehículos eléctricos es más variable: confirmá un punto operativo antes de depender de él.</p></article>
-        <article class="topic"><span class="num">04 · DORMIR CERCA</span><h3>Alojamiento por zona, no por promoción</h3><p>Para minimizar traslados podés buscar hoteles, apart-hoteles u hospedajes en el sector sur o en el centro de La Rioja. Esta guía no jerarquiza establecimientos: compará ubicación, accesibilidad, estacionamiento y políticas de cancelación en fuentes actualizadas.</p></article>
+        <article class="topic"><span class="num">01 · BAÑOS Y ASEO</span><h3>Sanitarios en el predio</h3><p>Los baños están confirmados en el sector del natatorio. Para sanitarios accesibles o disponibilidad fuera de temporada, conviene consultar al personal del predio al ingresar.</p></article>
+        <article class="topic"><span class="num">02 · ESTACIONAMIENTO</span><h3>Dónde dejar el auto</h3><p>Hay playas y áreas de estacionamiento vinculadas al predio y al entorno del Superdomo. En espectáculos o fechas de gran concurrencia puede haber cortes y menor disponibilidad: llegá temprano y seguí la señalización temporal.</p></article>
+        <article class="topic"><span class="num">03 · COMIDA Y BEBIDA</span><h3>Opciones sin atarte a una marca</h3><p>La información municipal menciona kioscos, heladería y oferta ligada a los parques; en jornadas especiales suelen sumarse puestos temporales. Para una comida completa, filtrá por tipo de cocina o servicio en La Rioja Capital y comprobá horarios por tu cuenta.</p></article>
+        <article class="topic"><span class="num">04 · ALOJAMIENTO</span><h3>Dormir por zona, no por promoción</h3><p>Para minimizar traslados podés buscar hoteles, apart-hoteles u hospedajes en el sector sur o en el centro de La Rioja. Compará ubicación, accesibilidad, estacionamiento y políticas de cancelación en fuentes actualizadas.</p></article>
+        <article class="topic"><span class="num">05 · COMPRAS Y ABASTECIMIENTO</span><h3>Supermercado y cercanía</h3><p>La Rioja Capital cuenta con supermercados y comercios de cercanía donde aprovisionarte de agua, protector solar, merienda y artículos básicos antes o después del paseo.</p></article>
+        <article class="topic"><span class="num">06 · COMBUSTIBLE Y CARGA</span><h3>Nafta y carga para VE</h3><p>En la ciudad hay estaciones de servicio de distintas banderas. La carga para vehículos eléctricos es más variable en cantidad y operatividad: confirmá un punto habilitado antes de planificar el regreso en tu auto eléctrico.</p></article>
       </div>
     </div>
   </section>
@@ -214,18 +227,41 @@ const schema = [attractionSchema, faqSchema];
     <div class="shell transport-grid">
       <div>
         <p class="eyebrow">Cómo llegar</p>
-        <h2 class="heading">Del avión o del centro al parque.</h2>
-        <p class="subheading">Dirección de referencia: Av. Circunvalación y Av. Las Palmeras, La Rioja Capital.</p>
+        <h2 class="heading">Del avión, el terminal o el centro al parque.</h2>
+        <p class="subheading">Dirección de referencia: Av. Circunvalación y Av. Las Palmeras, La Rioja Capital. El predio es amplio; si vas a un evento en el Superdomo, confirmá la puerta habilitada.</p>
       </div>
       <div>
         <div class="route"><div class="route-icon">✈</div><div><h3>Desde el aeropuerto</h3><p>El Aeropuerto Capitán Vicente Almandos Almonacid se ubica a unos 6 km al nordeste de la ciudad, según la Municipalidad. La opción más directa al parque es taxi o remis; el tiempo depende del tránsito y del punto de salida del aeropuerto. Si combinás con transporte urbano, verificá primero la conexión vigente hacia el corredor sur.</p></div></div>
-        <div class="route"><div class="route-icon">B</div><div><h3>En colectivo urbano</h3><p>El entorno del Superdomo aparece servido por líneas del sistema Rioja Bus. En verano se han implementado extensiones especiales hacia el parque, pero no deben asumirse como permanentes. Revisá recorridos, paradas y frecuencia el día de la visita.</p></div></div>
-        <div class="route"><div class="route-icon">T</div><div><h3>Taxi o remis</h3><p>Pedí como destino “Parque de la Ciudad / Superdomo, Av. Circunvalación y Las Palmeras”. Para el regreso después de un evento, coordiná la recogida con anticipación: la demanda puede concentrarse al mismo tiempo.</p></div></div>
+        <div class="route"><div class="route-icon">B</div><div><h3>En colectivo urbano</h3><p>El entorno del Superdomo aparece servido por líneas del sistema Rioja Bus. En verano se han implementado extensiones especiales hacia el parque, pero no deben asumirse como permanentes. Revisá recorridos, paradas y frecuencia el día de la visita, y bajate en la parada más cercana al acceso que vayas a usar.</p></div></div>
+        <div class="route"><div class="route-icon">T</div><div><h3>Taxi o remis</h3><p>Pedí como destino “Parque de la Ciudad / Superdomo, Av. Circunvalación y Las Palmeras”. Para el regreso después de un evento, coordiná la recogida con anticipación: la demanda puede concentrarse al mismo tiempo y los celulares suelen saturarse.</p></div></div>
+        <div class="route"><div class="route-icon">🚶</div><div><h3>Desde el centro</h3><p>Desde la Plaza 25 de Mayo y el microcentro son unos 5–7 km hacia el sur. Podés combinar colectivo urbano con una caminata corta, o taxi/remis puerta a puerta. En días de mucho calor, preferí el traslado en vehículo a caminar largas distancias.</p></div></div>
         <div class="route"><div class="route-icon">🚲</div><div><h3>Bicicleta o movilidad personal</h3><p>Es una alternativa razonable desde sectores cercanos, siempre que el clima lo permita. Usá iluminación al atardecer, circulá por infraestructura habilitada y evitá las horas de calor extremo.</p></div></div>
         <div class="route"><div class="route-icon">◎</div><div><h3>Bus turístico</h3><p>El City Tour panorámico provincial incluye al Parque de la Ciudad en su recorrido publicado. Días, tarifa y circuito pueden cambiar; consultá la ficha oficial antes de usarlo como transporte de ida o regreso.</p></div></div>
       </div>
     </div>
+
+    <div class="shell" style="margin-top:2.5rem">
+      <p class="eyebrow">Comparativo rápido</p>
+      <h3 class="heading" style="font-size:clamp(1.5rem,2.4vw,2.2rem)">Qué medio conviene según tu llegada</h3>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Medio</th><th>Duración aprox.</th><th>Mejor para</th><th>En qué fijarse</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Avión + taxi/remis</td><td>15–30 min hasta el parque</td><td>Quienes llegan de fuera y llevan equipaje</td><td>Coordiná el regreso si venís de un evento</td></tr>
+            <tr><td>Colectivo urbano (Rioja Bus)</td><td>20–45 min según origen</td><td>Presupuesto y desplazamiento diurno</td><td>Recorridos y frecuencias cambian; revisá el día</td></tr>
+            <tr><td>Taxi o remis</td><td>10–25 min desde el centro</td><td>Comodidad, familias, regreso nocturno</td><td>Pedí la dirección exacta del acceso</td></tr>
+            <tr><td>Bus turístico (City Tour)</td><td>Según circuito</td><td>Conocer varios puntos en una vuelta</td><td>Días y tarifa pueden variar</td></tr>
+            <tr><td>Bicicleta / movilidad personal</td><td>Variable</td><td>Trayectos cortos y clima templado</td><td>Iluminación al atardecer y sombra</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="muted" style="margin-top:1rem;font-size:.9rem">Las duraciones son orientativas y dependen del tránsito, la hora y el punto exacto de origen. Esta guía no comercializa ni recomienda empresas de transporte.</p>
+    </div>
   </section>
+
+  <WeatherSection />
 
   <section class="section" aria-labelledby="mapa-titulo">
     <div class="shell">
@@ -296,6 +332,73 @@ const schema = [attractionSchema, faqSchema];
       <div>
         <p>El parque dispone de amplios sectores urbanizados y equipamiento recreativo, pero no encontramos una auditoría pública reciente que permita afirmar que todos los recorridos, sanitarios y edificios cumplen el mismo nivel de accesibilidad. Si necesitás itinerario sin escalones, baño accesible, estacionamiento reservado o asistencia, consultá al predio antes de ir.</p>
         <p>En días de tormenta, calor extremo o eventos masivos, seguí las indicaciones de organismos locales. No ingreses a sectores cerrados y mantené especial supervisión de niñas y niños cerca de piletas y áreas de circulación vehicular.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="estacion" class="section rule" aria-labelledby="estacion-titulo">
+    <div class="shell">
+      <p class="eyebrow">Mejor época para visitar</p>
+      <h2 id="estacion-titulo" class="heading">Cuándo ir: estrategia por estación</h2>
+      <p class="subheading" style="max-width:56rem">La Rioja es zona árida: veranos muy calurosos e inviernos secos y fríos de noche. Esto es un patrón climático general del lugar, no un pronóstico; mirá la sección de clima para los días concretos.</p>
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Estación</th><th>Meses</th><th>Clima típico</th><th>Mejor horario</th><th>Qué llevar</th><th>En qué fijarse</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>Verano</strong></td><td>Dic – Feb</td><td>Muy caluroso, 30–40&nbsp;°C, sol fuerte, tardes con tormentas</td><td>Mañana temprano y atardecer</td><td>Mucha agua, protector solar, sombrero, ropa ligera</td><td>Natatorio de temporada; evitá el centro del día</td></tr>
+            <tr><td><strong>Otoño</strong></td><td>Mar – May</td><td>Templado y agradable, días cálidos, noches frescas</td><td>Medio día completo</td><td>Una prenda liviana para la tarde</td><td>Excelente para caminar y fotografiar</td></tr>
+            <tr><td><strong>Invierno</strong></td><td>Jun – Ago</td><td>Seco, frío de noche (puede helar), días soleados y suaves</td><td>De 10 a 17&nbsp;h</td><td>Campera: amanece y anochece fríos</td><td>Poca sombra necesaria; cuidado con rocío matinal</td></tr>
+            <tr><td><strong>Primavera</strong></td><td>Sep – Nov</td><td>Templado, ventoso, agradable; el monte florece</td><td>Mañana y tarde</td><td>Una capa y protección solar</td><td>Días ventosos; ideal para el mirador</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section id="rutas" class="section" aria-labelledby="rutas-titulo">
+    <div class="shell">
+      <p class="eyebrow">Cómo recorrerlo</p>
+      <h2 id="rutas-titulo" class="heading">Rutas sugeridas: media jornada y jornada completa</h2>
+      <p class="subheading" style="max-width:54rem">Dos recorridos tipo, ajustables al tiempo y al grupo. Ambos arrancan en el acceso principal y aprovechan la sombra y el mirador.</p>
+      <div class="place-grid">
+        <article class="place"><h3>Media jornada · ~2 h</h3><p>Entrada principal → paseo central entre jardines y palmeras → juegos y quinchos → mirador al atardecer, cuando el sol cae detrás de las sierras → salida. Ideal si tenés poco tiempo o venís con niños pequeños.</p></article>
+        <article class="place"><h3>Jornada completa · ~4–5 h</h3><p>Sumá al recorrido corto el natatorio en temporada, el sector del Superdomo, un picnic en los quinchos y —si querés ampliar— combinalo con el Parque de las Juventudes o el centro histórico (Plaza 25 de Mayo). Llevá agua y comida.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="itinerarios" class="section rule" aria-labelledby="itinerarios-titulo">
+    <div class="shell">
+      <p class="eyebrow">Según quién viaja</p>
+      <h2 id="itinerarios-titulo" class="heading">Itinerarios por tipo de visitante</h2>
+      <p class="subheading" style="max-width:54rem">Tres enfoques según tu grupo y tu ritmo. Ninguno supone contratar servicios: son formas de organizar el tiempo dentro del parque.</p>
+      <div class="place-grid">
+        <article class="place"><h3>Familias con niños</h3><p>Priorizá juegos infantiles, quinchos con sombra y el natatorio en verano. Llevá agua, bloqueador, merienda y ropa de repuesto; hacé pausas a la sombra. Duración cómoda: 2–3 h.</p></article>
+        <article class="place"><h3>Fotografía y naturaleza</h3><p>Apuntá al atardecer en el mirador, cuando la luz dorada recorta las sierras; sumá las palmeras, los jardines y la arquitectura del Superdomo. Mejor tarde; llevá lentes y agua, y respetá las áreas verdes.</p></article>
+        <article class="place"><h3>Bajo esfuerzo / accesible</h3><p>Elegí sectores planos y sombreados, descansá seguido y evitá el mediodía. Confirmá con el predio baño accesible y estacionamiento reservado antes de ir. La duración es la que tú puedas: corta y a tu ritmo.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section id="ciencia" class="section" aria-labelledby="ciencia-titulo">
+    <div class="shell intro-grid">
+      <div>
+        <p class="eyebrow">Ciencia y responsabilidad</p>
+        <h2 id="ciencia-titulo" class="heading">El monte riojano y tu visita</h2>
+      </div>
+      <div class="intro-body">
+        <p>La Rioja se asienta en el ecotono del <strong>monte xerófilo</strong>, un bosque seco adaptado a la aridez. Especies habituales de la región son el algarrobo, el chañar, la brea, la jarilla, el mistol y la tuna; entre la fauna destacan aves como el cardenal, el benteveo y el chinchero, además del quirquincho, la vizcacha y el zorro gris chico. Conocer este entorno ayuda a entender por qué el parque funciona como pulmón verde y como infraestructura social en una ciudad de clima extremo.</p>
+        <p>En un ambiente donde el agua es escasa, cada gesto cuenta. La responsabilidad del visitante no es un trámite: es lo que mantiene el espacio disfrutable para todos.</p>
+        <ul class="resp-list">
+          <li>No tires basura; usá los cestos y separá los residuos cuando la ciudad lo habilite.</li>
+          <li>Cuidá la vegetación nativa: no cortes ramas ni extraigas plantas.</li>
+          <li>No alimentes a los animales silvestres.</li>
+          <li>Respetá las normas del natatorio (traje de baño, sin bebidas alcohólicas).</li>
+          <li>Llevá agua reutilizable y protección solar: el sol riojano es intenso todo el año.</li>
+          <li>Seguí las indicaciones de la autoridad en eventos masivos y tormentas.</li>
+        </ul>
       </div>
     </div>
   </section>

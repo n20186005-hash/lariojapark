@@ -1,0 +1,28 @@
+# Archivos que NO se suben al despliegue en Cloudflare Workers.
+# El sitio es estático y se sirve desde dist/ (generado por `astro build`).
+# Estos archivos solo viven en el repositorio / entorno de desarrollo.
+
+node_modules/
+.astro/
+.wrangler/
+.wrangler-out/
+.dev.vars
+.env
+.env.*
+*.tsbuildinfo
+
+# Código fuente y configuración de build (no forman parte del sitio publicado)
+src/
+scripts/
+astro.config.mjs
+tsconfig.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+package.json
+
+# Documentación y metadatos del proyecto
+README.md
+BUILD-VERIFICATION.md
+SOURCES.md
+PHOTO_SOURCES.md
+.DS_Store

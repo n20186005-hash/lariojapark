@@ -221,3 +221,51 @@ img { display: block; max-width: 100%; }
   .info-row { grid-template-columns: 1fr; gap: .3rem; }
   .footer-bottom { display: block; }
 }
+
+/* Tablas de datos (temporadas, comparativos) */
+.table-wrap { margin-top: 2rem; overflow-x: auto; border: 1px solid var(--line); border-radius: 8px; }
+.data-table { width: 100%; border-collapse: collapse; min-width: 48rem; font-size: .92rem; }
+.data-table th, .data-table td { text-align: left; padding: .85rem 1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.data-table thead th { background: rgba(39,76,58,.06); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; color: var(--forest); }
+.data-table tbody tr:last-child td { border-bottom: 0; }
+.data-table tbody tr:nth-child(even) { background: rgba(255,255,255,.42); }
+
+/* Lista de responsabilidad del visitante */
+.resp-list { margin: 1.6rem 0 0; padding-left: 1.1rem; }
+.resp-list li { margin: .5rem 0; color: #4e5b52; }
+
+/* Módulo de clima / tiempo */
+.wx-card { margin-top: 2rem; border: 1px solid var(--line); border-radius: 14px; padding: 1.4rem; background: rgba(255,255,255,.66); }
+.wx-now { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem 1.6rem; align-items: center; }
+.wx-now-main { display: flex; align-items: center; gap: 1rem; }
+.wx-icon { font-size: 3rem; line-height: 1; }
+.wx-temp { font-family: Georgia, serif; font-size: 3rem; line-height: 1; }
+.wx-cond { color: #4e5b52; }
+.wx-meta { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .6rem 1.4rem; }
+.wx-meta li { display: flex; flex-direction: column; font-size: .76rem; color: #667069; }
+.wx-meta strong { font-size: 1.05rem; color: var(--ink); }
+.wx-advice-grid { margin-top: 1.4rem; display: grid; grid-template-columns: repeat(3, 1fr); gap: .8rem; }
+.wx-advice-block { border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem; background: rgba(255,255,255,.5); }
+.wx-advice-block h4 { margin: 0 0 .5rem; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--forest); }
+.wx-advice-block ul { margin: 0; padding-left: 1rem; }
+.wx-advice-block li { font-size: .9rem; color: #3f4a43; margin: .3rem 0; }
+.wx-risk { margin-top: 1.4rem; border: 1px solid #e2a3a3; background: #fbecec; border-radius: 12px; padding: .9rem 1rem; }
+.wx-risk p { margin: .25rem 0; font-weight: 700; color: #8a2b2b; font-size: .92rem; }
+.wx-ok { margin-top: 1.4rem; padding: .8rem 1rem; border-radius: 10px; background: #eaf3ec; color: #1f5135; font-weight: 700; }
+.wx-days { margin-top: 1.4rem; display: grid; grid-template-columns: repeat(7, 1fr); gap: .5rem; }
+.wx-day { border: 1px solid var(--line); border-radius: 10px; padding: .7rem .5rem; text-align: center; display: flex; flex-direction: column; gap: .25rem; align-items: center; }
+.wx-day-name { font-weight: 800; font-size: .8rem; }
+.wx-day-icon { font-size: 1.5rem; }
+.wx-day-temp { font-size: .85rem; }
+.wx-day-cond { font-size: .68rem; color: #58635b; min-height: 2.2em; }
+.wx-day-rain { font-size: .72rem; color: #667069; }
+.wx-day-rain.is-rain { color: #8a2b2b; font-weight: 700; }
+.wx-status { margin-top: 1rem; font-size: .8rem; color: #667069; }
+.wx-fallback { color: #58635b; }
+
+@media (max-width: 720px) {
+  .wx-now { grid-template-columns: 1fr; }
+  .wx-days { grid-template-columns: repeat(3, 1fr); }
+  .wx-advice-grid { grid-template-columns: 1fr; }
+}
+

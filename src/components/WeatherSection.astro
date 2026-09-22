@@ -1,0 +1,67 @@
+---
+// Módulo de clima: el Servidor de Astro (en build) obtiene los datos y los
+// renderiza en el HTML; el navegador los actualiza en vivo al cargar.
+// La lógica de consejos vive en src/lib/weather.ts y se comparte en ambos lados.
+
+import { buildWeatherUrl, buildNow, buildDays, buildAdvice } from '../lib/weather';
+
+let weather: any = null;
+let weatherError = false;
+try {
+  const res = await fetch(buildWeatherUrl(), { headers: { 'User-Agent': 'lariojapark-guia/1.0' } });
+  if (!res.ok) throw new Error('weather http ' + res.status);
+  weather = await res.json();
+} catch {
+  weatherError = true;
+}
+
+const nowHtml = weather ? buildNow(weather) : '';
+const adviceHtml = weather ? buildAdvice(weather) : '';
+const daysHtml = weather ? buildDays(weather) : '';
+const fallback = 'No pudimos obtener el pronóstico en este momento. Consultá el clima de La Rioja antes de salir y llevá agua y protección solar.';
+---
+
+<section id="tiempo" class="section" aria-labelledby="tiempo-titulo">
+  <div class="shell">
+    <p class="eyebrow">Clima en La Rioja</p>
+    <h2 id="tiempo-titulo" class="heading">Tiempo ahora y pronóstico de varios días</h2>
+    <p class="subheading" style="max-width:56rem">
+      La Rioja es zona árida: el sol es intenso casi todo el año. Mirá si hace falta paraguas y, sobre todo, qué conviene llevar y cómo aprovechar la visita.
+    </p>
+
+    <div class="wx-card">
+      <div id="weather-now" set:html={nowHtml || `<p class="wx-fallback">${fallback}</p>`}></div>
+      <div id="weather-advice" set:html={adviceHtml || ''}></div>
+      <div id="weather-days" set:html={daysHtml || ''}></div>
+    </div>
+    <p id="weather-status" class="wx-status">
+      {weatherError
+        ? 'Mostrando sugerencia de referencia; se actualizará al cargar la página.'
+        : 'Datos de referencia; se actualizan al abrir la página.'}
+    </p>
+  </div>
+</section>
+
+<script>
+  import { buildWeatherUrl, buildNow, buildDays, buildAdvice } from '../lib/weather';
+
+  (async () => {
+    const nowEl = document.getElementById('weather-now');
+    const advEl = document.getElementById('weather-advice');
+    const daysEl = document.getElementById('weather-days');
+    const statusEl = document.getElementById('weather-status');
+    if (!nowEl || !daysEl) return;
+
+    try {
+      const res = await fetch(buildWeatherUrl());
+      if (!res.ok) throw new Error('http');
+      const w = await res.json();
+      nowEl.innerHTML = buildNow(w);
+      if (advEl) advEl.innerHTML = buildAdvice(w);
+      daysEl.innerHTML = buildDays(w);
+      if (statusEl) statusEl.textContent = 'Actualizado al abrir la página.';
+    } catch (e) {
+      if (statusEl) statusEl.textContent = 'No se pudo actualizar en este momento; se muestran datos de referencia.';
+    }
+  })();
+</script>

@@ -2,11 +2,14 @@
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import { SITE_NAME } from '../data/site';
 
 interface Props {
   title: string;
   description: string;
   image?: string;
+  imageAlt?: string;
+  preloadImage?: string;
   schema?: Record<string, unknown> | Array<Record<string, unknown>>;
   noindex?: boolean;
 }
@@ -15,12 +18,14 @@ const {
   title,
   description,
   image = '/images/parque-entrada.jpg',
+  imageAlt = 'Parque de la Ciudad en La Rioja, Argentina',
+  preloadImage,
   schema,
   noindex = false,
 } = Astro.props;
 
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : undefined;
-const fullTitle = title.includes('Parque de la Ciudad') ? title : `${title} | Parque de la Ciudad · La Rioja`;
+const fullTitle = title.includes('Parque de la Ciudad') ? title : `${title} | ${SITE_NAME}`;
 const GA_ID = 'G-HXM22WWPKP';
 ---
 <!doctype html>
@@ -30,16 +35,27 @@ const GA_ID = 'G-HXM22WWPKP';
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#17382a" />
+    {preloadImage && <link rel="preload" as="image" href={preloadImage} fetchpriority="high" />}
     {noindex && <meta name="robots" content="noindex,nofollow" />}
     {canonical && <link rel="canonical" href={canonical} />}
 
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_AR" />
     <meta property="og:title" content={fullTitle} />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={image} />
+    <meta property="og:image:alt" content={imageAlt} />
     {canonical && <meta property="og:url" content={canonical} />}
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={image} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Parque de la Ciudad" />
 
     <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
@@ -75,5 +91,12 @@ const GA_ID = 'G-HXM22WWPKP';
     <SiteHeader />
     <main id="contenido"><slot /></main>
     <SiteFooter />
+    <script is:inline>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
   </body>
 </html>
