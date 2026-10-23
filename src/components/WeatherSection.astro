@@ -1,24 +1,4 @@
 ---
-// Módulo de clima: el Servidor de Astro (en build) obtiene los datos y los
-// renderiza en el HTML; el navegador los actualiza en vivo al cargar.
-// La lógica de consejos vive en src/lib/weather.ts y se comparte en ambos lados.
-
-import { buildWeatherUrl, buildNow, buildDays, buildAdvice } from '../lib/weather';
-
-let weather: any = null;
-let weatherError = false;
-try {
-  const res = await fetch(buildWeatherUrl(), { headers: { 'User-Agent': 'lariojapark-guia/1.0' } });
-  if (!res.ok) throw new Error('weather http ' + res.status);
-  weather = await res.json();
-} catch {
-  weatherError = true;
-}
-
-const nowHtml = weather ? buildNow(weather) : '';
-const adviceHtml = weather ? buildAdvice(weather) : '';
-const daysHtml = weather ? buildDays(weather) : '';
-const fallback = 'No pudimos obtener el pronóstico en este momento. Consultá el clima de La Rioja antes de salir y llevá agua y protección solar.';
 ---
 
 <section id="tiempo" class="section" aria-labelledby="tiempo-titulo">
@@ -26,24 +6,23 @@ const fallback = 'No pudimos obtener el pronóstico en este momento. Consultá e
     <p class="eyebrow">Clima en La Rioja</p>
     <h2 id="tiempo-titulo" class="heading">Tiempo ahora y pronóstico de varios días</h2>
     <p class="subheading" style="max-width:56rem">
-      La Rioja es zona árida: el sol es intenso casi todo el año. Mirá si hace falta paraguas y, sobre todo, qué conviene llevar y cómo aprovechar la visita.
+      Pronóstico de modelo para el entorno del parque, no una confirmación de apertura ni una alerta oficial. Verificá las indicaciones locales antes de salir.
     </p>
 
     <div class="wx-card">
-      <div id="weather-now" set:html={nowHtml || `<p class="wx-fallback">${fallback}</p>`}></div>
-      <div id="weather-advice" set:html={adviceHtml || ''}></div>
-      <div id="weather-days" set:html={daysHtml || ''}></div>
+      <div id="weather-now" set:html={'<p class="wx-fallback">Cargando pronóstico…</p>'}></div>
+      <div id="weather-advice" ></div>
+      <div id="weather-days" ></div>
     </div>
-    <p id="weather-status" class="wx-status">
-      {weatherError
-        ? 'Mostrando sugerencia de referencia; se actualizará al cargar la página.'
-        : 'Datos de referencia; se actualizan al abrir la página.'}
+    <p id="weather-status" class="wx-status" role="status" aria-live="polite">
+      Sin datos de referencia guardados. El pronóstico se solicita al abrir la página.
     </p>
+    <p class="wx-status"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a> · Datos de modelo para La Rioja. <noscript>Activá JavaScript para solicitar el pronóstico actual.</noscript></p>
   </div>
 </section>
 
 <script>
-  import { buildWeatherUrl, buildNow, buildDays, buildAdvice } from '../lib/weather';
+  import { buildWeatherUrl, buildNow, buildDays, buildAdvice, validateWeather, weatherTime } from '../lib/weather';
 
   (async () => {
     const nowEl = document.getElementById('weather-now');
@@ -53,15 +32,19 @@ const fallback = 'No pudimos obtener el pronóstico en este momento. Consultá e
     if (!nowEl || !daysEl) return;
 
     try {
-      const res = await fetch(buildWeatherUrl());
+      const res = await fetch(buildWeatherUrl(), {signal:AbortSignal.timeout(8000),cache:"no-store"});
       if (!res.ok) throw new Error('http');
       const w = await res.json();
+      validateWeather(w);
       nowEl.innerHTML = buildNow(w);
       if (advEl) advEl.innerHTML = buildAdvice(w);
       daysEl.innerHTML = buildDays(w);
-      if (statusEl) statusEl.textContent = 'Actualizado al abrir la página.';
+      if (statusEl) statusEl.textContent = 'Modelo Open-Meteo · ' + weatherTime(w) + ' (hora de La Rioja). No establece cierres del parque.';
     } catch (e) {
-      if (statusEl) statusEl.textContent = 'No se pudo actualizar en este momento; se muestran datos de referencia.';
+      nowEl.textContent = 'No pudimos obtener un pronóstico verificado. Consultá el clima y los avisos locales antes de salir.';
+      if (advEl) advEl.replaceChildren();
+      daysEl.replaceChildren();
+      if (statusEl) statusEl.textContent = 'Pronóstico temporalmente no disponible. Volvé a cargar la página para reintentar.';
     }
   })();
 </script>

@@ -1,19 +1,5 @@
-# Fuentes de fotografías
+# Image provenance
 
-Estas imágenes se usan con finalidad informativa para representar el atractivo real. Sus derechos pertenecen a sus autores o titulares originales.
+The three documentary photographs previously shipped in `public/images/` lacked a verified reusable licence: the entrance image was credited to El Independiente, the pool image to Nueva Rioja, and the third image was redistributed through Airial/Tripadvisor. Informational use and a reachable file did not establish permission. All three files and their hero, gallery, metadata and preload references were removed.
 
-1. **Acceso al Parque de la Ciudad**  
-   Fuente editorial: El Independiente, La Rioja.  
-   Recurso utilizado: `https://www.elindependiente.com.ar/elindependiente/1.0/img/344478801.jpg`
-
-2. **Piletas del Parque de la Ciudad**  
-   Fuente editorial: Nueva Rioja.  
-   Recurso utilizado: `https://nuevarioja.com.ar/galeria/fotos/2019/12/17/l_3480_1576600817.jpg`
-
-3. **Acceso secundario / vista de visitantes**  
-   Fuente de visualización: Airial / imagen procedente de contenido de visitantes.  
-   Recurso utilizado: `https://www.airial.travel/_next/image?q=70&url=https%3A%2F%2Fmedia-cdn.tripadvisor.com%2Fmedia%2Fphoto-w%2F31%2F34%2Fa8%2F7c%2Fcaption.jpg&w=3840`
-
-## Recomendación editorial
-
-Para eliminar las dependencias externas de imagen, no basta con descargar archivos: primero debe confirmarse que la licencia o autorización permite redistribuirlos desde el dominio del proyecto. Una vez confirmada, se recomienda guardar copias WebP/JPEG optimizadas en `public/images/`, conservar atribución y actualizar el HTML para usar rutas locales.
+The guide retains its existing illustrated identity in `public/logo.svg` and `public/icons/`. The hero and social image use the existing `public/icons/icon-512.png`, visibly labelled as an illustration rather than a photograph of the park. `scripts/generate-pwa-icons.mjs` documents generation of the PWA illustration assets. No documentary park photograph or third-party photo licence is asserted.

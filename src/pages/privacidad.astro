@@ -1,51 +1,13 @@
 ---
 import LegalLayout from '../layouts/LegalLayout.astro';
 ---
-<LegalLayout
-  title="Política de privacidad"
-  description="Qué datos puede tratar esta guía, para qué se usan y qué opciones tenés sobre analítica, mapas y almacenamiento local."
->
-  <h2 id="alcance">Alcance y principio de minimización</h2>
-  <p>Esta guía es un proyecto informativo independiente y sin fines de lucro. Procuramos tratar la menor cantidad posible de datos personales y no vendemos información de visitantes ni creamos perfiles comerciales propios.</p>
-
-  <h2 id="datos">Información que puede recopilarse</h2>
-  <p>Al navegar por el sitio pueden generarse datos técnicos habituales, como dirección IP, tipo de navegador, sistema operativo, páginas solicitadas, fecha y hora aproximada de acceso, URL de referencia y registros necesarios para seguridad y funcionamiento del alojamiento.</p>
-  <p>También podemos utilizar almacenamiento local o tecnologías equivalentes para recordar tus preferencias de cookies. Si en el futuro nos enviás información voluntariamente por un canal de contacto, se utilizará únicamente para atender esa comunicación.</p>
-
-  <h2 id="uso">Cómo usamos la información</h2>
-  <ul>
-    <li>Mantener el sitio disponible, seguro y técnicamente estable.</li>
-    <li>Comprender, cuando das tu consentimiento, patrones agregados de uso y mejorar el contenido.</li>
-    <li>Responder consultas que hayas iniciado voluntariamente.</li>
-    <li>Cumplir obligaciones legales aplicables y atender solicitudes legítimas.</li>
-  </ul>
-
-  <h2 id="analitica">Google Analytics 4</h2>
-  <p>La guía está preparada para utilizar Google Analytics 4 con el identificador G-HXM22WWPKP. El código de Analytics no se carga hasta que activás expresamente la categoría de analítica en la página de configuración de cookies. Si rechazás esa categoría, la guía seguirá funcionando.</p>
-  <p>Cuando Analytics está activado, Google puede recibir información técnica sobre tu visita conforme a sus propias condiciones y políticas. Configuramos la integración con una finalidad estadística y no utilizamos esta guía para publicidad personalizada.</p>
-
-  <h2 id="mapas">Google Maps y contenido de terceros</h2>
-  <p>La página principal incorpora un mapa de Google Maps. Al visualizar ese iframe, tu navegador establece una conexión directa con Google, que puede recibir tu dirección IP y otros datos técnicos y aplicar sus propias políticas. Las fotografías informativas también pueden cargarse desde la fuente editorial o fotográfica indicada mientras no exista una copia local autorizada.</p>
-
-  <h2 id="cookies">Cookies y almacenamiento local</h2>
-  <p>Las preferencias de consentimiento se guardan en el almacenamiento local del navegador con la clave <code>pdlc-cookie-preferences</code>. Podés cambiarlas o rechazarlas desde <a href="/cookies/">Configuración de cookies</a>. El bloqueo del almacenamiento local no impide consultar el contenido principal; en ese caso, la analítica permanece desactivada.</p>
-
-  <h2 id="retencion">Conservación y seguridad</h2>
-  <p>No fijamos períodos de conservación para datos que están bajo control de proveedores externos. Los registros técnicos del servicio de alojamiento se conservan según la configuración y obligaciones del proveedor. Procuramos limitar el acceso a la información y aplicar medidas razonables de seguridad, aunque ningún sistema conectado a Internet puede garantizar riesgo cero.</p>
-
-  <h2 id="derechos">Tus derechos</h2>
-  <p>Según la normativa que resulte aplicable a tu caso —incluido, cuando corresponda, el Reglamento General de Protección de Datos (GDPR) y la legislación argentina de protección de datos— podés tener derecho a:</p>
-  <ul>
-    <li>Solicitar acceso a tus datos personales.</li>
-    <li>Pedir rectificación, actualización o supresión cuando corresponda.</li>
-    <li>Oponerte al tratamiento o solicitar su limitación en los casos previstos por la ley.</li>
-    <li>Retirar un consentimiento previamente otorgado, sin afectar la licitud del tratamiento anterior.</li>
-    <li>Presentar una reclamación ante la autoridad de control competente.</li>
-  </ul>
-
-  <h2 id="menores">Privacidad de menores</h2>
-  <p>El sitio ofrece información turística general y no está diseñado para solicitar datos personales de niñas, niños o adolescentes. No pedimos edades, documentos ni información sensible para consultar la guía.</p>
-
-  <h2 id="cambios">Cambios de esta política</h2>
-  <p>Podemos actualizar esta política para reflejar cambios técnicos, legales o de servicios. Cuando se produzca una modificación relevante, actualizaremos el texto y el mes de revisión indicado al inicio de esta página.</p>
+<LegalLayout title="Política de privacidad" description="Cómo funcionan el alojamiento, la analítica opcional, Google Maps, el pronóstico y el almacenamiento de esta guía.">
+<h2>Alcance</h2><p>Esta guía independiente ofrece información para visitantes. No tiene cuentas de usuario, reservas, compras ni formulario de contacto; no solicita información personal para leer el contenido.</p>
+<h2>Alojamiento y datos técnicos</h2><p>Cloudflare entrega el sitio y puede procesar dirección IP, información del navegador y solicitudes para prestar el servicio. Las prácticas del proveedor se describen en su <a href="https://www.cloudflare.com/privacypolicy/">política de privacidad</a>.</p>
+<h2>Cloudflare Web Analytics (RUM)</h2><p>El alojamiento incorpora un beacon de rendimiento de Cloudflare, independiente de Google Analytics. La elección de analítica de esta guía controla nuestra integración de Google Analytics; no controla el beacon del alojamiento. La presencia de su script no confirma que se hayan enviado métricas en una visita concreta. Consultá la <a href="https://developers.cloudflare.com/web-analytics/data-metrics/data-origin-and-collection/">documentación de Cloudflare sobre recopilación de datos</a>.</p>
+<h2>Google Analytics opcional</h2><p>La integración existente utiliza G-HXM22WWPKP y se carga después de una autorización guardada y comprobada. Google puede procesar identificadores de cookies y datos de uso; no describimos esa información como completamente anónima. Podés cambiar o retirar la elección en <a href="/cookies/">Configuración de cookies</a>. Retirarla desactiva la medición posterior en esta página; no borra lo que ya se haya enviado a Google.</p>
+<h2>Mapa y pronóstico</h2><p>El mapa incrustado conecta el navegador con Google. El módulo de clima solicita datos de Open-Meteo para un punto fijo del parque, sin pedir tu geolocalización. Estos proveedores pueden recibir tu dirección IP y datos técnicos de la solicitud, aunque la analítica esté desactivada. Consultá las políticas de <a href="https://policies.google.com/privacy">Google</a> y <a href="https://open-meteo.com/en/terms">Open-Meteo</a>.</p>
+<h2>Almacenamiento en el navegador</h2><p>La clave local <code>pdlc-cookie-preferences</code> conserva la elección de analítica. El service worker guarda imágenes e iconos para reutilizarlos; no conserva páginas de navegación ni datos meteorológicos. Podés borrar estos elementos desde las herramientas del navegador.</p>
+<h2>Si no se puede guardar una elección</h2><p>La interfaz comprueba el almacenamiento antes de informar que una decisión quedó guardada. Si una activación falla, mantiene apagada la medición e intenta guardar una negativa o quitar la autorización. Si tampoco puede verificarlo, avisa que una autorización podría seguir disponible para otras pestañas o una recarga. Seguí el mensaje de resultado y revisá las opciones del navegador.</p>
+<h2>Información de terceros</h2><p>Esta política describe las funciones del sitio; los servicios externos aplican sus propias condiciones y plazos. El control de Analytics no desactiva el mapa, el pronóstico ni la entrega del alojamiento.</p>
 </LegalLayout>

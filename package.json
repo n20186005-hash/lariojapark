@@ -4,7 +4,8 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.12.0 <23"
+    "node": ">=24.12.0 <25",
+    "pnpm": ">=11 <12"
   },
   "scripts": {
     "dev": "astro dev",
@@ -23,5 +24,6 @@
     "@astrojs/check": "0.9.10",
     "typescript": "6.0.3",
     "wrangler": "4.125.0"
-  }
+  },
+  "packageManager": "pnpm@11.25.0"
 }

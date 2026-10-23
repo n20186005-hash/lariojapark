@@ -19,10 +19,9 @@ export const ATTRACTION = {
   country: 'Argentina',
   countryCode: 'AR',
   postalCode: 'F5300',
-  streetAddress: 'Av. Circunvalación y Av. Las Palmeras',
-  lat: -29.44013,
-  lng: -66.89689,
+  streetAddress: 'Avenida Circunvalación S/N',
+  lat: -29.439496,
+  lng: -66.898749,
   mapsShare: 'https://maps.app.goo.gl/Cd5Ax2rgCJBqPPqo9',
   govtTourism: 'https://turismo.larioja.gob.ar/',
-  telephone: '+54 380 445-3664',
 } as const;

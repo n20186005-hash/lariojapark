@@ -1,6 +1,4 @@
-// Lógica de clima compartida entre el render del servidor (Astro) y el
-// refresco en el navegador. No contiene ninguna mención técnica del servicio:
-// el visitante solo recibe consejos accionables.
+// Pronóstico Open-Meteo para el punto del parque; consejos orientativos.
 
 export type WmoInfo = { label: string; icon: string; rain: boolean };
 
@@ -41,7 +39,7 @@ export const wmo = (c: number): WmoInfo => WMO[c] ?? { label: 'Cielo variado', i
 export function beaufort(kmh: number): number {
   const upper = [0.3, 1.5, 3.3, 5.4, 7.9, 10.7, 13.8, 17.1, 20.7, 24.4, 28.4, 32.6];
   let level = 0;
-  for (const u of upper) if (kmh > u) level++;
+  for (const u of upper) if (kmh / 3.6 > u) level++;
   return level;
 }
 
@@ -51,8 +49,8 @@ const dayFmt = new Intl.DateTimeFormat('es-AR', { weekday: 'short', timeZone: TZ
 export function buildWeatherUrl(): string {
   return (
     'https://api.open-meteo.com/v1/forecast' +
-    '?latitude=-29.44013&longitude=-66.89689' +
-    '&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation_probability,weather_code,wind_speed_10m,uv_index' +
+    '?latitude=-29.439496&longitude=-66.898749' +
+    '&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,wind_speed_10m' +
     '&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max' +
     '&timezone=America%2FArgentina%2FLa_Rioja&forecast_days=7'
   );
@@ -61,7 +59,7 @@ export function buildWeatherUrl(): string {
 export function buildNow(w: any): string {
   const c = w?.current ?? {};
   const d = w?.daily ?? {};
-  const code = Number(c.weather_code ?? 0);
+  const code = Number(c.weather_code);
   const info = wmo(code);
   const probNow = Number(c.precipitation_probability ?? 0);
   const probDay = Number(d.precipitation_probability_max?.[0] ?? 0);
@@ -70,7 +68,7 @@ export function buildNow(w: any): string {
   const feels = c.apparent_temperature != null ? Math.round(c.apparent_temperature) : '—';
   const hum = c.relative_humidity_2m != null ? Math.round(c.relative_humidity_2m) : '—';
   const wind = c.wind_speed_10m != null ? Math.round(c.wind_speed_10m) : '—';
-  const uv = c.uv_index != null ? Math.round(c.uv_index) : '—';
+  const uv = d.uv_index_max?.[0] != null ? Math.round(d.uv_index_max[0]) : '—';
   return `
     <div class="wx-now">
       <div class="wx-now-main">
@@ -84,8 +82,8 @@ export function buildNow(w: any): string {
         <li><span>Sensación</span><strong>${feels}°</strong></li>
         <li><span>Humedad</span><strong>${hum}%</strong></li>
         <li><span>Viento</span><strong>${wind} km/h</strong></li>
-        <li><span>Lluvia</span><strong>${prob}%</strong></li>
-        <li><span>UV</span><strong>${uv}</strong></li>
+        <li><span>Prob. lluvia del día</span><strong>${prob}%</strong></li>
+        <li><span>UV máximo del día</span><strong>${uv}</strong></li>
       </ul>
     </div>`;
 }
@@ -95,7 +93,7 @@ export function buildDays(w: any): string {
   if (!d?.time?.length) return '';
   const out: string[] = [];
   for (let i = 0; i < d.time.length; i++) {
-    const date = new Date(d.time[i] + 'T00:00:00');
+    const date = new Date(d.time[i] + 'T12:00:00-03:00');
     const name = i === 0 ? 'Hoy' : dayFmt.format(date).replace(/^\w/, (s) => s.toUpperCase());
     const code = Number(d.weather_code?.[i] ?? 0);
     const info = wmo(code);
@@ -119,7 +117,7 @@ export function buildDays(w: any): string {
 export function buildAdvice(w: any): string {
   const c = w?.current ?? {};
   const d = w?.daily ?? {};
-  const codeNow = Number(c.weather_code ?? 0);
+  const codeNow = Number(c.weather_code);
   const info = wmo(codeNow);
   const tempNow = c.temperature_2m != null ? Math.round(c.temperature_2m) : NaN;
   const uvNow = c.uv_index != null ? c.uv_index : (d.uv_index_max?.[0] ?? 0);
@@ -144,7 +142,7 @@ export function buildAdvice(w: any): string {
 
   if (prob >= 60 || info.rain) {
     outfit.push('Llevá ropa y calzado que resistan mojarse.');
-    plan.push('Si llueve, usá los quinchos y sectores techados; los paseos al aire libre se disfrutan menos.');
+    plan.push('Si llueve, acortá el recorrido expuesto y comprobá dónde hay un lugar seguro habilitado.');
     items.push('Paraguas o poncho.');
   }
   if (light.includes(codeNow)) {
@@ -152,17 +150,17 @@ export function buildAdvice(w: any): string {
     items.push('Paraguas plegable.');
   }
   if (heavy.includes(codeNow)) {
-    risk.push('Lluvia intensa: evitá las zonas bajas y descampadas; el natatorio y los juegos pueden cerrar.');
+    risk.push('Lluvia intensa: evitá zonas bajas y recorridos expuestos; seguí los avisos locales.');
     items.push('Poncho (mejor que paraguas largo si hay viento).');
   }
   if (storm.includes(codeNow)) {
-    risk.push('Tormenta eléctrica: no te refugies bajo árboles ni en el agua; buscá un techo.');
-    plan.push('Las piletas y actividades acuáticas suelen suspenderse con tormenta.');
+    risk.push('Tormenta eléctrica: alejate del agua y de los árboles; buscá un edificio cerrado o refugio seguro.');
+    plan.push('Posponé el paseo expuesto y consultá las indicaciones del personal; el pronóstico no confirma cierres.');
   }
   if (level >= 7) {
     risk.push('Viento fuerte: alejate de carteles, ramas y estructuras; cuidado con objetos que se desprendan.');
   } else if (level >= 5) {
-    plan.push('Viento moderado: sujetá papeles y sombreros; las palmeras y los quinchos dan buena sombra.');
+    plan.push('Con viento, sujetá tus pertenencias y revisá las condiciones del recorrido.');
     items.push('Mejor una gorra ajustada que un sombrero.');
   }
   if (tempNow >= 32 || tMax >= 32) {
@@ -184,10 +182,10 @@ export function buildAdvice(w: any): string {
     outfit.push('Gran diferencia térmica entre el día y la noche: llevá una prenda para abrigarte al atardecer.');
   }
   if ([0, 1].includes(codeNow)) {
-    plan.push('Día despejado: ideal para recorrer el parque y ver el sol caer tras las sierras.');
+    plan.push('Cielo despejado: ajustá el recorrido al calor, al viento y al resto de las condiciones.');
     items.push('No olvides el protector solar.');
   } else if (codeNow === 3) {
-    plan.push('Cielo nublado y luz suave: excelente para fotos y paseos largos sin calor.');
+    plan.push('Cielo nublado: revisá igualmente la temperatura, la lluvia y el viento antes de caminar.');
   }
 
   const dedupe = (a: string[]) => Array.from(new Set(a));
@@ -208,7 +206,20 @@ export function buildAdvice(w: any): string {
   if (grid) {
     html += `<div class="wx-advice-grid">${grid}</div>`;
   } else if (!risk.length) {
-    html += '<p class="wx-ok">No hay avisos especiales: es un buen momento para visitar el parque.</p>';
+    html += '<p class="wx-ok">Estas variables no generan consejos adicionales; verificá los avisos locales antes de salir.</p>';
   }
   return html;
+}
+
+export function validateWeather(w: any): void {
+ const c=w?.current,d=w?.daily,finite=(v:unknown)=>typeof v==='number'&&Number.isFinite(v);
+ if(!c||!d||!['temperature_2m','apparent_temperature','relative_humidity_2m','wind_speed_10m','weather_code'].every(k=>finite(c[k]))||!WMO[c.weather_code])throw new Error('Current weather unavailable');
+ if(!/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(c.time??''))throw new Error('Missing weather time');
+ const stamp=Date.parse(c.time+'-03:00');if(!Number.isFinite(stamp)||Math.abs(Date.now()-stamp)>6*3600000)throw new Error('Outdated weather');
+ if(!Array.isArray(d.time)||d.time.length<1||d.time.length>7||!d.time.every((v:unknown)=>typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&Number.isFinite(Date.parse(v))))throw new Error('Invalid forecast dates');
+ for(const k of ['weather_code','temperature_2m_min','temperature_2m_max','precipitation_probability_max','uv_index_max'])if(!Array.isArray(d[k])||d[k].length!==d.time.length||!d[k].every(finite))throw new Error('Incomplete forecast');
+ if(c.relative_humidity_2m<0||c.relative_humidity_2m>100||c.wind_speed_10m<0||d.precipitation_probability_max.some((n:number)=>n<0||n>100)||d.weather_code.some((n:number)=>!WMO[n]))throw new Error('Invalid weather value');
+}
+export function weatherTime(w: any): string {
+ return new Intl.DateTimeFormat('es-AR',{timeZone:TZ,day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(new Date(w.current.time+'-03:00'));
 }
