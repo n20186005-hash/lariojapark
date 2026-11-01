@@ -1,0 +1,143 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { GROUP_LABELS, getTopic, topicsByGroup, type Topic } from '../data/topics';
+
+interface Props {
+  topic: Topic;
+}
+
+const { topic } = Astro.props;
+const group = GROUP_LABELS[topic.group];
+const c = topic.content;
+
+const relatedTopics = topic.related
+  .map((slug) => getTopic(slug))
+  .filter((t): t is Topic => Boolean(t) && t!.slug !== topic.slug);
+
+const sameGroup = topicsByGroup(topic.group).filter((t) => t.slug !== topic.slug);
+
+const homeUrl = Astro.site ? new URL('/', Astro.site).toString() : '/';
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : '';
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Inicio', item: homeUrl },
+    { '@type': 'ListItem', position: 2, name: group.label, item: canonical },
+    { '@type': 'ListItem', position: 3, name: c.h1, item: canonical },
+  ],
+};
+
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: c.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+
+const schema = [breadcrumb, faqSchema];
+---
+
+<BaseLayout title={c.metaTitle} description={c.metaDescription} schema={schema}>
+  <article class="topic-page">
+    <header class="topic-hero">
+      <div class="shell">
+        <p class="eyebrow">{group.label}</p>
+        <p class="topic-kicker">{c.kicker}</p>
+        <h1 class="display">{c.h1}</h1>
+        <p class="topic-lead">{c.lead}</p>
+        <p class="topic-updated">Guía actualizada el {topic.updated}. Esta es una guía independiente de terceros; confirmá las condiciones operativas antes de viajar.</p>
+      </div>
+    </header>
+
+    {
+      c.facts.length > 0 && (
+        <section class="fact-strip" aria-label="Datos rápidos">
+          <dl class="shell fact-grid">
+            {c.facts.map((f) => (
+              <div class="fact">
+                <dt>{f.term}</dt>
+                <dd>{f.detail}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+      )
+    }
+
+    <div class="shell topic-body">
+      {
+        c.sections.map((s) => (
+          <section class="topic-section">
+            <h2 class="heading">{s.heading}</h2>
+            {s.paragraphs?.map((p) => <p>{p}</p>)}
+            {s.bullets && (
+              <ul class="topic-bullets">
+                {s.bullets.map((b) => <li>{b}</li>)}
+              </ul>
+            )}
+            {s.callout && <blockquote class="topic-callout">{s.callout}</blockquote>}
+          </section>
+        ))
+      }
+    </div>
+
+    {
+      sameGroup.length > 0 && (
+        <section class="section rule topic-group-nav">
+          <div class="shell">
+            <p class="eyebrow">Otras guías de {group.label}</p>
+            <h2 class="heading">Explorá más sobre el parque</h2>
+            <div class="related-grid">
+              {sameGroup.map((t) => (
+                <a class="related-card" href={`/temas/${t.slug}/`}>
+                  <span class="related-eyebrow">{t.content.kicker}</span>
+                  <span class="related-title">{t.content.h1}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    {
+      relatedTopics.length > 0 && (
+        <section class="section topic-related">
+          <div class="shell">
+            <p class="eyebrow">Temas relacionados</p>
+            <h2 class="heading">También te puede servir</h2>
+            <div class="related-grid">
+              {relatedTopics.map((t) => (
+                <a class="related-card" href={`/temas/${t.slug}/`}>
+                  <span class="related-eyebrow">{GROUP_LABELS[t.group].label}</span>
+                  <span class="related-title">{t.content.h1}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <section class="section rule topic-faq">
+      <div class="shell">
+        <p class="eyebrow">Preguntas frecuentes</p>
+        <h2 class="heading">{c.h1}: dudas comunes</h2>
+        <div class="faq-list">
+          {c.faqs.map((f) => (
+            <details>
+              <summary>{f.q}</summary>
+              <p>{f.a}</p>
+            </details>
+          ))}
+        </div>
+        <p class="topic-back"><a class="button secondary" href="/">Volver al inicio</a></p>
+      </div>
+    </section>
+  </article>
+</BaseLayout>

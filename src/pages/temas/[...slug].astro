@@ -1,0 +1,19 @@
+---
+import TopicPage from '../../components/TopicPage.astro';
+import { topicSlugs, getTopic } from '../../data/topics';
+
+export function getStaticPaths() {
+  return topicSlugs().map((slug) => ({
+    params: { slug },
+  }));
+}
+
+const { slug } = Astro.params;
+const topic = getTopic(slug as string);
+
+if (!topic) {
+  return Astro.redirect('/404/');
+}
+---
+
+<TopicPage topic={topic} />

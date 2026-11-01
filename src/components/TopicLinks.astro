@@ -1,0 +1,32 @@
+---
+import { GROUP_LABELS, topicsByGroup, type TopicGroup } from '../data/topics';
+
+const groups: TopicGroup[] = ['visita', 'parque', 'planes', 'comer', 'alrededores', 'itinerarios'];
+---
+
+<section id="guias" class="section rule">
+  <div class="shell">
+    <p class="eyebrow">Guías temáticas</p>
+    <h2 class="heading">Preguntas concretas sobre el Parque de la Ciudad</h2>
+    <p class="subheading">Cada guía responde a una intención distinta: acceso, sectores, planes según quién va, dónde comer y qué visitar cerca.</p>
+
+    {
+      groups.map((g) => {
+        const items = topicsByGroup(g);
+        if (items.length === 0) return null;
+        const label = GROUP_LABELS[g];
+        return (
+          <div class="topic-cluster">
+            <h3 class="cluster-title">{label.label}</h3>
+            <p class="cluster-eyebrow">{label.eyebrow}</p>
+            <ul class="cluster-list">
+              {items.map((t) => (
+                <li><a href={`/temas/${t.slug}/`}>{t.content.h1}</a></li>
+              ))}
+            </ul>
+          </div>
+        );
+      })
+    }
+  </div>
+</section>

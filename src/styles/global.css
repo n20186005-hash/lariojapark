@@ -273,3 +273,44 @@ img { display: block; max-width: 100%; }
 .hero-location{display:block;font-size:clamp(1.4rem,3vw,2rem);line-height:1.2;letter-spacing:0;margin-top:.7rem}.hero-illustration{background:linear-gradient(150deg,#ebe2cb,#c5d3bd);display:grid;place-items:center;padding:3rem}.hero-illustration img{object-fit:contain;max-height:80%;width:100%;height:auto}.hero-art .hero-photo-note{position:relative;inset:auto;margin:0;padding:.6rem 1rem;max-width:none;align-self:end}.hero-art{display:grid;grid-template-rows:1fr auto;padding-bottom:2.5rem}.hero-arch{bottom:3rem}.hero-stamp{bottom:4rem}section[id]{scroll-margin-top:7rem}@media(max-width:600px){.hero-art{min-height:24rem}.hero-stamp{width:7rem;height:7rem;font-size:.7rem}.hero-stamp strong{font-size:1.25rem}}
 
 .hero-art .hero-photo-note{grid-row:2}
+
+/* ===================== Páginas temáticas (/temas/...) ===================== */
+.topic-hero { background: var(--forest-deep); color: var(--cream); padding: clamp(3rem, 6vw, 5.5rem) 0 clamp(2.5rem, 5vw, 4rem); }
+.topic-hero .eyebrow { color: var(--sun); }
+.topic-hero .display { color: #fff; max-width: 18ch; }
+.topic-kicker { color: #f2bd63; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; font-size: .82rem; margin: 0 0 .8rem; }
+.topic-lead { max-width: 52rem; margin: 1.4rem 0 1rem; font-size: clamp(1.06rem, 1.6vw, 1.28rem); color: #dce4de; }
+.topic-updated { font-size: .82rem; color: #a9bcb0; margin: 0; }
+
+.topic-body { padding-block: clamp(2.5rem, 5vw, 4.5rem); }
+.topic-section { max-width: 54rem; margin-inline: auto; }
+.topic-section + .topic-section { margin-top: 2.6rem; }
+.topic-section .heading { font-size: clamp(1.6rem, 3vw, 2.6rem); margin: 0 0 1rem; color: var(--forest-deep); }
+.topic-section p { color: #46534b; margin: .9rem 0; font-size: 1.06rem; }
+.topic-bullets { margin: 1.1rem 0; padding-left: 1.3rem; color: #46534b; }
+.topic-bullets li { margin: .5rem 0; }
+.topic-callout { margin: 1.4rem 0 0; padding: 1.1rem 1.3rem; border-left: 4px solid var(--clay); background: rgba(185,87,55,.07); color: #4a3328; font-size: 1rem; }
+
+.related-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 2rem; }
+.related-card { display: flex; flex-direction: column; gap: .35rem; border-top: 2px solid var(--forest); background: rgba(255,255,255,.62); padding: 1.2rem 1.3rem; text-decoration: none; color: var(--ink); transition: transform .15s ease, background .15s ease; }
+.related-card:hover { transform: translateY(-2px); background: #fff; }
+.related-eyebrow { font-size: .72rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--clay); }
+.related-title { font-family: Georgia, serif; font-size: 1.2rem; line-height: 1.2; }
+.topic-back { margin-top: 2.2rem; }
+
+/* Clúster de guías en la home */
+.topic-cluster { margin-top: 2.6rem; padding-top: 2.2rem; border-top: 1px solid var(--line); }
+.topic-cluster:first-of-type { border-top: 0; padding-top: 0; }
+.cluster-title { font-family: Georgia, serif; font-size: 1.7rem; margin: 0; color: var(--forest-deep); }
+.cluster-eyebrow { margin: .2rem 0 1rem; color: var(--clay); font-weight: 800; font-size: .8rem; letter-spacing: .06em; text-transform: uppercase; }
+.cluster-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: .4rem 1.6rem; }
+.cluster-list a { display: block; padding: .55rem 0; border-bottom: 1px solid var(--line); color: #3f4a43; text-decoration: none; }
+.cluster-list a:hover { color: var(--clay); }
+
+@media (max-width: 900px) {
+  .related-grid { grid-template-columns: 1fr 1fr; }
+}
+@media (max-width: 640px) {
+  .related-grid { grid-template-columns: 1fr; }
+  .cluster-list { grid-template-columns: 1fr; }
+}
