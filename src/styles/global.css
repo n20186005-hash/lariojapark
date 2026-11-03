@@ -107,13 +107,14 @@ img { display: block; max-width: 100%; }
 .intro-body p { font-size: 1.08rem; }
 .big-quote { margin: 2.6rem 0; padding: 2rem 0 2rem 2rem; border-left: 5px solid var(--sun); font-family: Georgia, serif; font-size: clamp(1.6rem, 3vw, 2.6rem); line-height: 1.18; color: var(--forest-deep); }
 
-.photo-band { padding: 0 0 clamp(4rem, 7vw, 7rem); }
+.photo-band { padding: clamp(3rem, 5vw, 5rem) 0 clamp(4rem, 7vw, 7rem); }
 .photo-grid { display: grid; grid-template-columns: 1.15fr .85fr; grid-template-rows: 19rem 19rem; gap: .8rem; }
-.photo-grid figure { margin: 0; overflow: hidden; position: relative; background: #d7d1bf; }
+.photo-grid figure { margin: 0; overflow: hidden; display: flex; flex-direction: column; background: #d7d1bf; }
 .photo-grid figure:first-child { grid-row: 1 / span 2; }
-.photo-grid img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+.photo-grid img { display: block; width: 100%; height: 0; min-height: 0; flex: 1 1 0; object-fit: cover; transition: transform .6s ease; }
 .photo-grid figure:hover img { transform: scale(1.018); }
-.photo-grid figcaption { position: absolute; left: .65rem; right: .65rem; bottom: .65rem; background: rgba(255,250,240,.9); padding: .55rem .65rem; font-size: .72rem; }
+.photo-grid figcaption { background: #fffaf0; padding: .7rem .8rem; font-size: .78rem; line-height: 1.45; }
+.photo-rights { margin: 1rem 0 0; font-size: .78rem; color: #59665e; }
 
 .info-rail { background: var(--forest-deep); color: #f8f2e8; }
 .info-rail .eyebrow { color: #f2bd63; }
