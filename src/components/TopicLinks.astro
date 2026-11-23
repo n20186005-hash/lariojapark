@@ -1,14 +1,14 @@
 ---
 import { GROUP_LABELS, topicsByGroup, type TopicGroup } from '../data/topics';
 
-const groups: TopicGroup[] = ['visita', 'parque', 'planes', 'comer', 'alrededores', 'itinerarios'];
+const groups: TopicGroup[] = ['visita', 'parque', 'planes', 'comer', 'itinerarios'];
 ---
 
 <section id="guias" class="section rule">
   <div class="shell">
     <p class="eyebrow">Guías temáticas</p>
     <h2 class="heading">Preguntas concretas sobre el Parque de la Ciudad</h2>
-    <p class="subheading">Cada guía responde a una intención distinta: acceso, sectores, planes según quién va, dónde comer y qué visitar cerca.</p>
+    <p class="subheading">Cada guía responde a una intención distinta: acceso, sectores, planes según quién va y dónde comer.</p>
 
     {
       groups.map((g) => {

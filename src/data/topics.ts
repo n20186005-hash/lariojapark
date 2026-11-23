@@ -1,3 +1,5 @@
+import { municipalDestinationTopics } from './municipal-destinations';
+
 // Registro de páginas temáticas independientes del Parque de la Ciudad de La Rioja.
 // Cada entrada es una fuente de contenido verificable; las páginas no repiten la
 // home y responden a una intención de búsqueda distinta.
@@ -46,6 +48,7 @@ export interface Topic {
   priority: TopicPriority;
   updated: string;
   related: string[];
+  visitor?: { mapQuery: string; sources: Array<{ label: string; url: string }> };
   content: TopicContent;
 }
 
@@ -61,7 +64,159 @@ export const GROUP_LABELS: Record<
   itinerarios: { label: 'Itinerarios', eyebrow: 'Recorridos sugeridos' },
 };
 
+const CITY_VISITORS: Topic[] = [
+  {
+    slug: 'alrededores/el-saladillo',
+    group: 'alrededores',
+    priority: 'A',
+    updated: '22 de noviembre de 2026',
+    related: ['alrededores', 'visita/como-llegar', 'itinerarios/la-rioja-en-un-dia'],
+    visitor: {
+      mapQuery: 'Parque Natural y Arqueológico El Saladillo, La Rioja Capital, Argentina',
+      sources: [
+        { label: 'Turismo de La Rioja: descripción, acceso y mapa del parque', url: 'https://turismo.larioja.gob.ar/actividades/parque-natural-y-arqueologico-saladillo/' },
+        { label: 'Turismo de La Rioja: agenda y horario de temporada', url: 'https://turismo.larioja.gob.ar/agenda-eventos/el-parque-arqueologico-y-natural-el-saladillo/' },
+        { label: 'Boletín Oficial municipal: interés cultural de la inauguración', url: 'https://www.municipiolarioja.gob.ar/boletinOficial/BoletinOficialPeriodo2023/boletin496.pdf' },
+      ],
+    },
+    content: {
+      metaTitle: 'El Saladillo: parque arqueológico y senderos en La Rioja',
+      metaDescription: 'Ubicá El Saladillo, en la zona norte de La Rioja. Prepará una visita a las ruinas de la antigua estancia jesuítica y los senderos sin confundirlo con el Parque de la Ciudad.',
+      kicker: 'Ruinas y senderos en la zona norte',
+      h1: 'Parque Natural y Arqueológico El Saladillo',
+      lead: 'El Saladillo combina senderos naturales con los restos de una antigua estancia jesuítica. Es una visita aparte del Parque de la Ciudad: reservá tiempo para el traslado y consultá las reglas del predio antes de salir.',
+      facts: [
+        { term: 'Ubicación', detail: 'Continuación de avenida Ramírez de Velazco, zona norte de La Rioja Capital.' },
+        { term: 'Entorno', detail: 'Antigua estancia, ruinas y senderos naturales.' },
+        { term: 'Antes de ir', detail: 'Confirmá horario, tarifa vigente y disponibilidad de un recorrido en la agenda provincial.' },
+      ],
+      sections: [
+        { heading: 'Sobre El Saladillo y su patrimonio', paragraphs: ['Turismo de La Rioja presenta El Saladillo como un parque natural y arqueológico que interpreta una antigua estancia jesuítica. El boletín municipal registra su inauguración por el gobierno provincial en 2023; la ficha de turismo provincial permite confirmar las condiciones de visita, sin atribuir la gestión diaria a una oficina no identificada. El parque no es un sector del Parque de la Ciudad.'] },
+        { heading: 'Qué se observa en el recorrido', paragraphs: ['En lugar de recorrer las ruinas como si fueran un edificio completo, mirá cómo sus restos se relacionan con la pendiente y con el trazado del sendero. Si hay una visita guiada, preguntá qué sectores corresponden a la estancia y qué intervenciones son posteriores. No subas a muros ni atravieses sectores señalizados.'] },
+        { heading: 'Acceso, horario y tarifa', paragraphs: ['Usá la continuación de avenida Ramírez de Velazco como referencia y abrí el mapa correspondiente al parque arqueológico, no el del lago urbano. La agenda provincial consultada publica de 08:00 a 19:00 hasta el 31 de diciembre de 2026. Es un horario de esa ficha, no una promesa de último ingreso, apertura nocturna o visita guiada; confirmá también la tarifa que corresponda.'] },
+        { heading: 'Itinerario y fotografía', bullets: ['Ubicá primero el acceso y consultá qué sendero está habilitado ese día.', 'Hacé el recorrido autorizado antes de alejarte hacia los tramos más expuestos y reservá tiempo para el regreso.', 'Fotografiá desde el sendero: un plano abierto sirve para mostrar el contexto, y otro más cercano para los restos visibles sin tocar la mampostería.'] },
+      ],
+      faqs: [
+        { q: '¿El Saladillo es parte del Parque de la Ciudad?', a: 'No. La ficha provincial ubica El Saladillo en la continuación de avenida Ramírez de Velazco, en la zona norte.' },
+        { q: '¿Puedo contar con una visita guiada al llegar?', a: 'La ficha provincial menciona recorridos guiados, pero la disponibilidad y las condiciones se deben confirmar para cada fecha.' },
+        { q: '¿Hay recorridos nocturnos todos los días?', a: 'No lo da por hecho esta guía. Las salidas nocturnas difundidas por Turismo corresponden a convocatorias puntuales.' },
+      ],
+    },
+  },
+  {
+    slug: 'alrededores/museo-inca-huasi',
+    group: 'alrededores',
+    priority: 'B',
+    updated: '22 de noviembre de 2026',
+    related: ['alrededores/el-saladillo', 'alrededores/iglesia-convento-santo-domingo', 'itinerarios/la-rioja-en-un-dia'],
+    visitor: {
+      mapQuery: 'Museo Arqueológico Regional Inca Huasi, Juan Bautista Alberdi 650, La Rioja Capital, Argentina',
+      sources: [
+        { label: 'Turismo de La Rioja: colecciones, historia, mapa y horarios', url: 'https://turismo.larioja.gob.ar/actividades/museo-inca-huasi/' },
+        { label: 'Estadística provincial: directorio cultural de Capital (2022)', url: 'https://estadistica.larioja.gob.ar/images/dptospdf/014_-_DATOS_CAPITAL_-_2022.pdf' },
+      ],
+    },
+    content: {
+      metaTitle: 'Museo Inca Huasi en La Rioja: arqueología y visita',
+      metaDescription: 'Guía del Museo Arqueológico Regional Inca Huasi: edificio, cerámicas, salas y mapa específico en La Rioja Capital.',
+      kicker: 'Arqueología regional en la capital',
+      h1: 'Museo Arqueológico Regional Inca Huasi',
+      lead: 'Inca Huasi es una parada para leer la historia prehispánica a partir de objetos: formas de vasijas, técnicas cerámicas y herramientas, no solo fechas y nombres de pueblos.',
+      facts: [
+        { term: 'Ciudad', detail: 'Juan Bautista Alberdi 650, La Rioja Capital, según el directorio provincial.' },
+        { term: 'Colecciones', detail: 'Cerámica, piedra, textiles y metales, además de objetos históricos.' },
+        { term: 'Edificio', detail: 'Construcción ecléctica con elementos coloniales, según Turismo provincial.' },
+      ],
+      sections: [
+        { heading: 'Sobre el museo y su origen', paragraphs: ['La ficha de Turismo de La Rioja atribuye al fraile franciscano Bernardino Gómez la fundación en 1926 y sitúa la obra del edificio actual entre 1935 y 1948. El directorio provincial de 2022 ubica al museo en Juan Bautista Alberdi 650 y lo lista bajo Secretaría de Cultura; usá la ficha turística para confirmar la atención actual.'] },
+        { heading: 'Qué mirar en las vitrinas', paragraphs: ['Compará una urna con una vasija de uso cotidiano y observá cómo cambia la lectura al ver el tamaño real. Prestá atención al material y al lugar que indica cada cédula; Aguada, Belén y Santa María, por ejemplo, son identificaciones distintas que no conviene agrupar en una sola etiqueta.'] },
+        { heading: 'Cómo integrarlo a una visita desde el parque', paragraphs: ['Si venís del Parque de la Ciudad, resolvé el traslado al museo por separado y conservá el mapa del edificio para el tramo final a pie. La ficha provincial publica una pausa al mediodía: verificá la franja exacta del día y si hay actividad especial antes de salir. No deduzcas una tarifa ni un cupo sin información vigente.'] },
+        { heading: 'Un recorrido de sala y una toma exterior', bullets: ['Empezá por las cédulas introductorias y elegí después una sala por material.', 'Cuando la sala esté abierta, compará objetos de contextos distintos antes de pasar a las piezas históricas.', 'Desde la vereda podés observar la composición de la fachada. Para fotografiar en el interior, consultá primero y evitá el flash si no está permitido.'] },
+      ],
+      faqs: [
+        { q: '¿Es un sitio arqueológico al aire libre?', a: 'No: es un museo con salas. El Saladillo, en la zona norte, ofrece una experiencia diferente entre ruinas y senderos.' },
+        { q: '¿De dónde salen los datos de la colección?', a: 'De la ficha pública de Turismo de la Provincia de La Rioja enlazada en esta guía.' },
+        { q: '¿Hay acceso continuo al mediodía?', a: 'La ficha provincial separa turnos de mañana y tarde. Verificá el horario del día con la institución.' },
+      ],
+    },
+  },
+  {
+    slug: 'alrededores/museo-folklorico',
+    group: 'alrededores',
+    priority: 'B',
+    updated: '22 de noviembre de 2026',
+    related: ['alrededores/paseo-cultural-castro-barros', 'alrededores/museo-inca-huasi', 'comer/sabores-riojanos'],
+    visitor: {
+      mapQuery: 'Museo Folklórico de La Rioja, Pelagio B. Luna 811, La Rioja, Argentina',
+      sources: [
+        { label: 'Turismo de La Rioja: salas, dirección y condiciones publicadas', url: 'https://turismo.larioja.gob.ar/actividades/museo-folklorico/' },
+        { label: 'Estadística provincial: directorio cultural de Capital (2022)', url: 'https://estadistica.larioja.gob.ar/images/dptospdf/014_-_DATOS_CAPITAL_-_2022.pdf' },
+        { label: 'Turismo de La Rioja: ficha separada del Museo de La Ciudad', url: 'https://turismo.larioja.gob.ar/actividades/museo-de-la-ciudad/' },
+      ],
+    },
+    content: {
+      metaTitle: 'Museo Folklórico de La Rioja: salas, dirección y visita',
+      metaDescription: 'Encontrá el Museo Folklórico en Pelagio B. Luna 811 y prepará una visita centrada en el vestir, la música y las tradiciones riojanas.',
+      kicker: 'Tradiciones riojanas y objetos de uso cotidiano',
+      h1: 'Museo Folklórico de La Rioja',
+      lead: 'El Museo Folklórico conserva objetos, instrumentos y prendas que cuentan cómo se transmiten las tradiciones riojanas. Las piezas se entienden mejor cuando se pregunta por su uso y no solo por su aspecto.',
+      facts: [
+        { term: 'Dirección', detail: 'Pelagio B. Luna 811, Ciudad de La Rioja.' },
+        { term: 'Colección', detail: 'Vestimenta, instrumentos y expresiones populares riojanas.' },
+        { term: 'Ingreso', detail: 'La ficha provincial indica entrada libre y gratuita; confirmá condiciones de visitas o actividades especiales.' },
+      ],
+      sections: [
+        { heading: 'Sobre el espacio de cultura popular', paragraphs: ['La ficha pública de Turismo de La Rioja describe salas temáticas sobre las costumbres de la provincia. El directorio provincial de 2022 lo lista bajo Secretaría de Cultura; la ficha turística consultada no precisa una fecha de fundación. No se trata del Museo de La Ciudad, que figura por separado en otra numeración de la misma calle.'] },
+        { heading: 'De la indumentaria a los instrumentos', paragraphs: ['Primero mirá los materiales y el desgaste de una prenda: dan pistas sobre la diferencia entre una pieza de todos los días y una de ocasión. Después acercate al área de instrumentos y leé si la ficha vincula la pieza a un ritmo, celebración o uso comunitario. Tomá las cédulas como contexto específico de cada objeto, no como una explicación de toda la provincia.'] },
+        { heading: 'Llegada y tiempo de visita', paragraphs: ['Marcá el número 811 en el mapa y comprobá el último tramo por Pelagio B. Luna a pie. Para combinar la salida con el parque, dejá el museo para una franja de sala confirmada: la ficha provincial separa un turno de mañana y otro de tarde.'] },
+        { heading: 'Puntos de observación y fotografía', bullets: ['Elegí primero una sala y buscá dos objetos con funciones distintas.', 'Recorré las vitrinas laterales antes de volver al acceso para evitar cruzar una visita grupal.', 'Si se permite, fotografiá una pieza junto con su cédula; no muevas objetos ni copies rostros de otros visitantes sin permiso.'] },
+      ],
+      faqs: [
+        { q: '¿El museo es el mismo que el Museo de La Ciudad?', a: 'No. El Folklórico está en Pelagio B. Luna 811; la ficha provincial del Museo de La Ciudad lo ubica en el número 248.' },
+        { q: '¿Qué se puede observar?', a: 'Las salas tratan tradiciones riojanas y reúnen vestimentas, instrumentos y otros objetos y expresiones populares.' },
+        { q: '¿La entrada tiene costo?', a: 'Turismo provincial la publica como libre y gratuita para la visita general; confirmá cualquier actividad especial.' },
+      ],
+    },
+  },
+  {
+    slug: 'alrededores/iglesia-convento-santo-domingo',
+    group: 'alrededores',
+    priority: 'B',
+    updated: '22 de noviembre de 2026',
+    related: ['alrededores/paseo-cultural-castro-barros', 'alrededores/museo-inca-huasi', 'itinerarios/la-rioja-en-un-dia'],
+    visitor: {
+      mapQuery: 'Iglesia y Convento Santo Domingo, Lamadrid 111, La Rioja Capital, Argentina',
+      sources: [{ label: 'Turismo de La Rioja: arquitectura y visitas al templo y al museo', url: 'https://turismo.larioja.gob.ar/actividades/iglesia-y-convento-santo-domingo/' }],
+    },
+    content: {
+      metaTitle: 'Iglesia y Convento Santo Domingo: arquitectura de La Rioja',
+      metaDescription: 'Ubicá el templo colonial de Santo Domingo en Lamadrid 111. Observá su portada, distinguí el museo del templo y verificá la visita.',
+      kicker: 'Patrimonio religioso y arquitectura colonial',
+      h1: 'Iglesia y Convento Santo Domingo de La Rioja',
+      lead: 'Santo Domingo permite ver una arquitectura de piedra, adobe y cal en pleno centro riojano. Con un mismo destino se pueden entender tres espacios distintos: el templo, el convento y el museo del claustro.',
+      facts: [
+        { term: 'Dirección', detail: 'Lamadrid 111, Ciudad de La Rioja.' },
+        { term: 'Origen constructivo', detail: 'La ficha provincial sitúa el inicio de obras alrededor de 1623.' },
+        { term: 'Visitas', detail: 'Templo y museo tienen condiciones propias; no uses el horario de misa como horario turístico.' },
+      ],
+      sections: [
+        { heading: 'Sobre el conjunto dominico', paragraphs: ['Turismo de La Rioja reseña el carácter religioso y patrimonial del conjunto, que sobrevivió al sismo de 1894. En el antiguo claustro funciona el Museo de Arte Religioso Sor Leonor de Santa María Ocampo. La ficha provincial separa la actividad del templo de los recorridos del museo: seguí la orientación del personal de cada espacio.'] },
+        { heading: 'Portada, materiales y transformaciones', paragraphs: ['Desde afuera observá el contraste entre el muro y la puerta tallada en algarrobo. Si el acceso lo permite, compará la antigüedad de ese conjunto con el estilo neoclásico del altar que describe la ficha oficial. No todo lo que se ve hoy corresponde al mismo período.'] },
+        { heading: 'Cómo llegar y elegir el recorrido', paragraphs: ['Al venir desde el Parque de la Ciudad, resolvé primero el transporte al centro; una vez allí usá Lamadrid 111 para localizar la entrada. Organizá el tramo peatonal con el mapa específico del templo, no con la ubicación de otro convento. Confirmá si se puede recorrer el museo aparte: no se presupone acceso a la cripta ni al claustro.'] },
+        { heading: 'Fotografía respetuosa y paradas', bullets: ['Empezá por el exterior y tomá un encuadre que muestre la escala de la puerta.', 'Si hay culto o actividad religiosa, no bloquees el paso ni hagas fotos a los asistentes.', 'Dentro del museo preguntá por las reglas de fotografía antes de usar cámara o flash.'] },
+      ],
+      faqs: [
+        { q: '¿Dónde queda el templo de Santo Domingo?', a: 'En Lamadrid 111, en la ciudad de La Rioja, según la dirección que publica Turismo provincial.' },
+        { q: '¿El museo y el templo reciben visitantes al mismo tiempo?', a: 'La ficha los describe por separado. Confirmá la franja de cada uno antes de ir.' },
+        { q: '¿Qué vale la pena mirar si solo se puede recorrer el exterior?', a: 'La fachada, los materiales del muro y la portada de algarrobo son buenas referencias sin dar por supuesto el acceso interior.' },
+      ],
+    },
+  },
+];
+
 export const TOPICS: Topic[] = [
+  ...CITY_VISITORS,
+  ...municipalDestinationTopics,
   // ===================== A · VISITA =====================
   {
     slug: 'visita/horarios',

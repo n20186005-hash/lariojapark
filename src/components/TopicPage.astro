@@ -9,12 +9,14 @@ interface Props {
 const { topic } = Astro.props;
 const group = GROUP_LABELS[topic.group];
 const c = topic.content;
+const visitor = topic.visitor;
+const mapUrl = visitor ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(visitor.mapQuery)}` : null;
 
 const relatedTopics = topic.related
   .map((slug) => getTopic(slug))
   .filter((t): t is Topic => Boolean(t) && t!.slug !== topic.slug);
 
-const sameGroup = topicsByGroup(topic.group).filter((t) => t.slug !== topic.slug);
+const sameGroup = topicsByGroup(topic.group).filter((t) => t.slug !== topic.slug).slice(0, 8);
 
 const homeUrl = Astro.site ? new URL('/', Astro.site).toString() : '/';
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).toString() : '';
@@ -50,6 +52,7 @@ const schema = [breadcrumb, faqSchema];
         <p class="topic-kicker">{c.kicker}</p>
         <h1 class="display">{c.h1}</h1>
         <p class="topic-lead">{c.lead}</p>
+        {mapUrl && <p class="topic-back"><a class="button secondary" href={mapUrl}>Ubicar {c.h1} en Google Maps</a></p>}
         <p class="topic-updated">Guía actualizada el {topic.updated}. Esta es una guía independiente de terceros; confirmá las condiciones operativas antes de viajar.</p>
       </div>
     </header>
@@ -84,6 +87,14 @@ const schema = [breadcrumb, faqSchema];
           </section>
         ))
       }
+      {visitor && (
+        <section class="topic-section" aria-label="Fuentes y fotografía">
+          <h2 class="heading">Fuentes para preparar la visita</h2>
+          <ul class="topic-bullets">
+            {visitor.sources.map((source) => <li><a href={source.url}>{source.label}</a></li>)}
+          </ul>
+        </section>
+      )}
     </div>
 
     {
@@ -91,7 +102,8 @@ const schema = [breadcrumb, faqSchema];
         <section class="section rule topic-group-nav">
           <div class="shell">
             <p class="eyebrow">Otras guías de {group.label}</p>
-            <h2 class="heading">Explorá más sobre el parque</h2>
+            <h2 class="heading">{topic.group === 'alrededores' ? 'Más destinos para visitar' : 'Explorá más sobre el parque'}</h2>
+            {topic.group === 'alrededores' && <p><a href="/#alrededores">Ver todos los destinos</a></p>}
             <div class="related-grid">
               {sameGroup.map((t) => (
                 <a class="related-card" href={`/temas/${t.slug}/`}>

@@ -3,6 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import WeatherSection from '../components/WeatherSection.astro';
 import TopicLinks from '../components/TopicLinks.astro';
 import { ATTRACTION } from '../data/site';
+import { topicsByGroup } from '../data/topics';
+const nearbyGuides = topicsByGroup('alrededores').filter((topic) => topic.slug !== 'alrededores');
 const official = 'https://turismo.larioja.gob.ar/actividades/parque-de-la-ciudad-y-superdomo/';
 const pools = 'https://turismo.larioja.gob.ar/actividades/natatorio-parque-de-la-ciudad/';
 const faqs = [
@@ -19,6 +21,19 @@ const schema=[{'@context':'https://schema.org','@type':['Park','TouristAttractio
 <BaseLayout title="Parque de la Ciudad La Rioja: horarios, entrada y cómo llegar" description="Guía del Parque de la Ciudad en La Rioja Capital: dirección y mapa, acceso al espacio verde, piletas de temporada, mirador y Superdomo con condiciones propias." schema={schema}>
  <section class="hero"><div class="shell hero-grid"><div class="hero-copy"><p class="hero-kicker">Guía independiente · Argentina</p><h1 class="display">Parque de la Ciudad <span class="hero-location">La Rioja Capital</span></h1><p class="hero-lede">Un paseo para caminar, compartir un mate y disfrutar del aire libre. Planificá el espacio verde, el mirador, las piletas y los eventos como visitas con condiciones diferentes.</p><div class="hero-actions"><a class="button primary" href="#visita">Horarios y acceso</a><a class="button secondary" href="#llegar">Cómo llegar</a></div></div><div class="hero-art"><div class="hero-arch"><img src="/images/parque-entrada.jpg" alt="Entrada del Parque de la Ciudad de La Rioja con jardines, palmeras y cartel del parque" width="969" height="709" fetchpriority="high" /></div><div class="hero-stamp"><span>La Rioja</span><strong>al aire libre</strong><span>paseo urbano</span></div><p class="hero-photo-note">Acceso al parque · Fuente: <a href="https://www.elindependiente.com.ar/elindependiente/1.0/img/344478801.jpg" target="_blank" rel="noopener noreferrer">El Independiente</a>. © Fotógrafo/a o titular original.</p></div></div></section>
  <section class="fact-strip" aria-label="Datos rápidos"><dl class="shell fact-grid"><div class="fact"><dt>Ubicación</dt><dd>La Rioja Capital, Argentina</dd></div><div class="fact"><dt>Dirección</dt><dd>Av. Circunvalación S/N</dd></div><div class="fact"><dt>Acceso al aire libre</dt><dd><a href="#visita">Libre y gratuito según Turismo</a></dd></div><div class="fact"><dt>Sectores y actividades</dt><dd>Confirmar horarios propios</dd></div></dl></section>
+ <section id="gestion" class="section rule" aria-labelledby="gestion-titulo">
+   <div class="shell intro-grid">
+     <h2 id="gestion-titulo" class="heading">Quién cuida el Parque de la Ciudad</h2>
+     <div>
+       <p>La Administración Provincial de Parques y Paseos tiene a cargo la administración y el cuidado del Parque de la Ciudad de La Rioja Capital. La Ley provincial 9.710 asigna el parque a ese organismo, que depende del Poder Ejecutivo provincial.</p>
+       <p>Para preparar tu visita, consultá la ficha provincial del parque. Los anuncios del Superdomo y del natatorio se publican por actividad o temporada.</p>
+       <ul>
+         <li><a href="https://www.boletinoflarioja.com.ar/pdf/2015/2015-10-09.pdf">Boletín Oficial de La Rioja, Ley 9.710, artículos 1 y 2</a></li>
+         <li><a href={official}>Información de Turismo de La Rioja sobre el parque y el Superdomo</a></li>
+       </ul>
+     </div>
+   </div>
+ </section>
  <section id="fotos" class="photo-band" aria-labelledby="fotos-titulo">
    <div class="shell">
      <p class="eyebrow">Fotografías del lugar</p>
@@ -49,7 +64,15 @@ const schema=[{'@context':'https://schema.org','@type':['Park','TouristAttractio
  <section id="estacion" class="section rule"><div class="shell"><p class="eyebrow">Elegir el momento</p><h2 class="heading">Organizá la visita según las condiciones</h2><div class="place-grid"><article class="place"><h3>Calor y sol</h3><p>Elegí períodos menos calurosos según el pronóstico del día. Hacé pausas, llevá agua y reducí el esfuerzo si el calor aumenta.</p></article><article class="place"><h3>Atardecer</h3><p>Si querés mirar las sierras desde el mirador, comprobá el acceso, la visibilidad y el regreso. No asumimos iluminación continua o transporte disponible a cualquier hora.</p></article><article class="place"><h3>Temporada de piletas</h3><p>La propuesta es estacional. Consultá apertura y condiciones para tu fecha; la descripción del verano no equivale a confirmación de que funciona hoy.</p></article></div></div></section>
  <section id="itinerarios" class="section"><div class="shell"><p class="eyebrow">Ideas de recorrido</p><h2 class="heading">Un plan ajustable a tu grupo</h2><div class="place-grid"><article class="place"><h3>Paseo breve</h3><p>Reservá alrededor de una hora como orientación personal: caminata por un sector habilitado, pausa y regreso. Ajustá la duración a la movilidad y al clima.</p></article><article class="place"><h3>En familia</h3><p>Elegí juegos habilitados, descansos y un punto de encuentro. Supervisá a niñas y niños cerca del agua y de la circulación vehicular.</p></article><article class="place"><h3>Actividad concreta</h3><p>Si venís por el natatorio o un evento del Superdomo, confirmá primero horario, entrada, puerta y regreso. Después sumá el paseo si las condiciones lo permiten.</p></article></div></div></section>
 <TopicLinks />
- <section id="alrededores" class="section rule"><div class="shell"><p class="eyebrow">Para continuar</p><h2 class="heading">Explorá La Rioja con información propia de cada lugar</h2><p class="subheading">El <a href="https://turismo.larioja.gob.ar/">portal oficial de Turismo de La Rioja</a> permite consultar otros paseos y la agenda. No transfieras las condiciones de acceso del parque a un museo, reserva o actividad diferente.</p></div></section>
+ <section id="alrededores" class="section rule" aria-labelledby="alrededores-titulo">
+   <div class="shell">
+     <h2 id="alrededores-titulo" class="heading">Qué visitar cerca del parque y en La Rioja Capital</h2>
+     <p class="subheading">Encontrá museos, plazas y paseos para continuar por la ciudad y sus alrededores. <a href="/temas/alrededores/">Ver la guía general de los alrededores</a>.</p>
+     <ul class="cluster-list">
+       {nearbyGuides.map((topic) => <li><a href={`/temas/${topic.slug}/`}>{topic.content.h1}</a></li>)}
+     </ul>
+   </div>
+ </section>
  <section id="faq" class="section"><div class="shell"><p class="eyebrow">Preguntas frecuentes</p><h2 class="heading">Antes de visitar el parque</h2><div class="faq-list">{faqs.map(item=><details><summary>{item.q}</summary><p>{item.a}</p></details>)}</div></div></section>
  <section id="fuentes" class="section rule"><div class="shell intro-grid"><div><p class="eyebrow">Fuentes y actualización</p><h2 class="heading">Información con su alcance y fecha</h2></div><div><p>La ficha de Google Maps mostraba <strong>4,7/5 y 14.544 valoraciones el 23/10/2026</strong>. Es una referencia de un tercero que puede cambiar; <a href={ATTRACTION.mapsShare}>consultá la ficha actual</a>. No es una evaluación propia de esta guía.</p><div class="source-box"><h3>Fuentes oficiales consultadas el 23/10/2026</h3><ul><li><a href={official}>Parque de la Ciudad y Superdomo: acceso general y actividades</a></li><li><a href={pools}>Piletas del Parque de la Ciudad: condiciones por temporada</a></li><li><a href="https://turismo.larioja.gob.ar/imperdibles/la-rioja-argentina-un-tesoro-de-historia-aventura-y-naturaleza/">Turismo provincial: mirador y contexto del paseo</a></li></ul></div><p>Esta es una guía independiente de terceros; no emite avisos de apertura ni representa al parque o a la autoridad turística.</p></div></div></section>
 </BaseLayout>
